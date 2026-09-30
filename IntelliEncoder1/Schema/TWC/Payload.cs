@@ -8,7 +8,7 @@ public class Payload()
     public List<DataRecord> DataRecords = [];
 
     // Generates payload scripts.
-    public string Generate()
+    public async Task<string> Generate()
     {
         // Define intro header and such.
         string payloadBody =
@@ -53,12 +53,12 @@ public class Payload()
         // Generate all DataRecords.
         foreach (DataRecord record in DataRecords)
         {
-            payloadBody += record.Generate();
+            payloadBody += await record.Generate();
         }
 
         // End with a ending message.
         payloadBody += """
-
+        
         # Ending message.
         twccommon.Log.info("---------------------------------------------------------------")
         twccommon.Log.info("END")
