@@ -69,7 +69,7 @@ public class CurrentConditions : DataRecord
         string recordBody = $"""
 
         # Current Conditions
-        twccommon.Log.info("IntelliEncoder 1 - Sending Current Conditions data for location {Location}...")
+        Log.info("IntelliEncoder 1 - Sending Current Conditions data for location {Location}...")
 
         # Generate data object.
         data = twc.Data()
@@ -93,7 +93,7 @@ public class CurrentConditions : DataRecord
         wxdata.setData("{Location}", "obs", data, {Expiration})
 
         # Finish!
-        twccommon.Log.info("IntelliEncoder 1 - Current Conditions for {Location} processed!")
+        Log.info("IntelliEncoder 1 - Current Conditions for {Location} processed!")
         """;
 
         return recordBody;

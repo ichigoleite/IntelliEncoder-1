@@ -25,15 +25,12 @@ public class Payload()
         You should not NEED to edit this - if you do, please make a bug report in the IntelliEncoder 1 GitHub repository.
         """
 
-        # Imports.
-        import twccommon
-
         # Intro message.
-        twccommon.Log.info("---------------------------------------------------------------")
-        twccommon.Log.info("START")
-        twccommon.Log.info("---------------------------------------------------------------")
-        twccommon.Log.info("\n")
-        twccommon.Log.info(
+        Log.info("---------------------------------------------------------------")
+        Log.info("START")
+        Log.info("---------------------------------------------------------------")
+        Log.info("\n")
+        Log.info(
             """
             ichigoleite
             ▐▓▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌   ▐▓▌   ▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌ ▐▓▓▓▓▌▐▓▓▓▓▌    ▐▓▓▌ 
@@ -60,10 +57,10 @@ public class Payload()
         payloadBody += """
         
         # Ending message.
-        twccommon.Log.info("---------------------------------------------------------------")
-        twccommon.Log.info("END")
-        twccommon.Log.info("---------------------------------------------------------------")
-        twccommon.Log.info("IntelliEncoder 1 - And that's all! Thank you for your patience!")
+        Log.info("---------------------------------------------------------------")
+        Log.info("END")
+        Log.info("---------------------------------------------------------------")
+        Log.info("IntelliEncoder 1 - And that's all! Thank you for your patience!")
         """;
 
         // Send off the payloadBody.
