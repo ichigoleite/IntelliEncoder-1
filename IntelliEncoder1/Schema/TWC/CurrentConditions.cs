@@ -68,32 +68,32 @@ public class CurrentConditions : DataRecord
         // Define base string.
         string recordBody = $"""
 
-            # Current Conditions
-            twccommon.Log.info("IntelliEncoder 1 - Sending Current Conditions data for location {Location}...")
+        # Current Conditions
+        twccommon.Log.info("IntelliEncoder 1 - Sending Current Conditions data for location {Location}...")
 
-            # Generate data object.
-            data = twc.Data()
-            data.skyCondition = {SkyCondition} # Icon Code Extended
-            data.temp = {Temperature} # Current Temperature
-            data.humidity = {RelativeHumidity} # Relative Humidity
-            data.feelsLikeIndex = {FeelsLike} # Feels Like
-            data.heatIndex = {HeatIndex} # Heat Index
-            data.uvIndex = {UVIndex} # UV Index
-            data.dewpoint = {DewPoint} # Dew Point
-            data.altimeter = {Pressure} # Pressure (Altimeter)
-            data.visibility = {Visibility} # Visibility
-            data.windDirection = {WindDirection} # Wind Direction
-            data.windSpeed = {WindSpeed} # Wind Speed
-            data.gusts = {WindGusts} # Wind Gusts
-            data.windChill = {WindChill} # Wind Chill
-            data.pressure = {MeanSeaLevel} # Pressure (Mean Sea Level)
-            data.pressureTendency = {PressureTendency} # Pressure (Tendency)
+        # Generate data object.
+        data = twc.Data()
+        data.skyCondition = {SkyCondition} # Icon Code Extended
+        data.temp = {Temperature} # Current Temperature
+        data.humidity = {RelativeHumidity} # Relative Humidity
+        data.feelsLikeIndex = {FeelsLike} # Feels Like
+        data.heatIndex = {HeatIndex} # Heat Index
+        data.uvIndex = {UVIndex} # UV Index
+        data.dewpoint = {DewPoint} # Dew Point
+        data.altimeter = {Pressure} # Pressure (Altimeter)
+        data.visibility = {Visibility} # Visibility
+        data.windDirection = {WindDirection} # Wind Direction
+        data.windSpeed = {WindSpeed} # Wind Speed
+        data.gusts = {WindGusts} # Wind Gusts
+        data.windChill = {WindChill} # Wind Chill
+        data.pressure = {MeanSeaLevel} # Pressure (Mean Sea Level)
+        data.pressureTendency = {PressureTendency} # Pressure (Tendency)
 
-            # Set data.
-            wxdata.setData({Location}, "obs", data, {Expiration})
+        # Set data.
+        wxdata.setData({Location}, "obs", data, {Expiration})
 
-            # Finish!
-            twccommon.Log.info("IntelliEncoder 1 - Current Conditions for {Location} processed!")
+        # Finish!
+        twccommon.Log.info("IntelliEncoder 1 - Current Conditions for {Location} processed!")
         """;
 
         return recordBody;
