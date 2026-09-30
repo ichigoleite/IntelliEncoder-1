@@ -60,7 +60,7 @@ public class DaypartForecast : DataRecord
             # Daypart {daypartCount} ({(isNight ? "Night" : "Day")})
             forecastTime_{varName} = {validTime}
             {dataName} = twc.Data()
-            {dataName}.phrase = "{Regex.Replace(daypart.Phrase, "\\'", "/'/g")}"
+            {dataName}.phrase = "{daypart.Phrase}"
             {dataName}.skyCondition = {daypart.Icon}
             {dataName}.temp = {daypart.Temp}
             {dataName}.daypartName = {daypart.Name}
