@@ -5,7 +5,7 @@ namespace IntelliEncoder1.Schema.TWC;
 public class Payload()
 {
     // List of DataRecords.
-    public DataRecord[] DataRecords = [];
+    public List<DataRecord> DataRecords = [];
 
     // Generates payload scripts.
     public string Generate()
