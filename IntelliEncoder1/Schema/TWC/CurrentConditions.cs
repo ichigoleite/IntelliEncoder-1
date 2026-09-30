@@ -90,7 +90,7 @@ public class CurrentConditions : DataRecord
         data.pressureTendency = {PressureTendency} # Pressure (Tendency)
 
         # Set data.
-        wxdata.setData({Location}, "obs", data, {Expiration})
+        wxdata.setData("{Location}", "obs", data, {Expiration})
 
         # Finish!
         twccommon.Log.info("IntelliEncoder 1 - Current Conditions for {Location} processed!")
