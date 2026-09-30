@@ -11,7 +11,7 @@ Payload payload = new()
         },
         new DaypartForecast()
         {
-            Location = "T28JAJATY0307",
+            Location = "28JAJATY0307",
             Dayparts =
             {
                 new() {IsNight = false, Phrase = "Test! Kirby kirby!"},
