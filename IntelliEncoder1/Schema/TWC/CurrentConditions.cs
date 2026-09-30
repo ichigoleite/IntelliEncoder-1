@@ -76,16 +76,16 @@ public class CurrentConditions : DataRecord
         data.skyCondition = {SkyCondition} # Icon Code Extended
         data.temp = {Temperature} # Current Temperature
         data.humidity = {RelativeHumidity} # Relative Humidity
-        data.feelsLikeIndex = {FeelsLike} # Feels Like
-        data.heatIndex = {HeatIndex} # Heat Index
+        data.feelsLikeIndex = {(FeelsLike == null ? "None" : FeelsLike.Value)} # Feels Like
+        data.heatIndex = {(HeatIndex == null ? "None" : HeatIndex.Value)} # Heat Index
         data.uvIndex = {UVIndex} # UV Index
         data.dewpoint = {DewPoint} # Dew Point
         data.altimeter = {Pressure} # Pressure (Altimeter)
         data.visibility = {Visibility} # Visibility
         data.windDirection = {WindDirection} # Wind Direction
         data.windSpeed = {WindSpeed} # Wind Speed
-        data.gusts = {WindGusts} # Wind Gusts
-        data.windChill = {WindChill} # Wind Chill
+        data.gusts = {(WindGusts == null ? "None" : WindGusts.Value)} # Wind Gusts
+        data.windChill = {(WindChill == null ? "None" : WindChill.Value)} # Wind Chill
         data.pressure = {MeanSeaLevel} # Pressure (Mean Sea Level)
         data.pressureTendency = {PressureTendency} # Pressure (Tendency)
 
