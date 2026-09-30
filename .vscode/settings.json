@@ -12,5 +12,11 @@
     "statusBar.noFolderBackground": "#464F0E",
     "statusBar.noFolderForeground": "#F9FBEA"
   },
-  "dotnet.defaultSolution": "IntelliEncoder1.slnx"
+  "dotnet.defaultSolution": "IntelliEncoder1.slnx",
+  "files.exclude": {
+    "**/*.rpyc": true,
+    "**/*.rpa": true,
+    "**/*.rpymc": true,
+    "**/cache/": true
+  }
 }
