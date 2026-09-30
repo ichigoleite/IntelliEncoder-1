@@ -26,18 +26,14 @@ public class Payload()
         """
 
         # Intro message.
-        Log.info("---------------------------------------------------------------")
+        Log.info("-----")
         Log.info("START")
-        Log.info("---------------------------------------------------------------")
+        Log.info("-----")
         Log.info("\n")
         Log.info(
             """
-            ichigoleite
-            ▐▓▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌   ▐▓▌   ▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌ ▐▓▓▓▓▌▐▓▓▓▓▌    ▐▓▓▌ 
-              ▐▓▌  ▐▓▓▌▐▓▌  ▐▓▌  ▐▓▌   ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▌   ▐▓▓▌▐▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▌   ▐▓▌▐▓▌     ▐▓▌ 
-              ▐▓▌  ▐▓▐▓▐▓▌  ▐▓▌  ▐▓▓▓▌ ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▓▓▌ ▐▓▐▓▐▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▓▓▌ ▐▓▓▓▓▌     ▐▓▌ 
-              ▐▓▌  ▐▓▌▐▓▓▌  ▐▓▌  ▐▓▌   ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▌   ▐▓▌▐▓▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▌   ▐▓▐▓▌      ▐▓▌ 
-            ▐▓▓▓▓▓▌▐▓▌ ▐▓▌  ▐▓▌  ▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌ ▐▓▓▓▓▌▐▓▌▐▓▌    ▐▓▓▓▌
+            IntelliEncoder 1
+            made by ichigoleite
 
             Special thanks for mariiful and kokoraii for MARIENCODER, the reference encoder used for this project.
 
@@ -57,9 +53,9 @@ public class Payload()
         payloadBody += """
         
         # Ending message.
-        Log.info("---------------------------------------------------------------")
+        Log.info("---")
         Log.info("END")
-        Log.info("---------------------------------------------------------------")
+        Log.info("---")
         Log.info("IntelliEncoder 1 - And that's all! Thank you for your patience!")
         """;
 
