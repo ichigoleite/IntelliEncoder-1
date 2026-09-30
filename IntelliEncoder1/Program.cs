@@ -23,7 +23,21 @@ Payload payload = new()
                 new() {IsNight = false, Phrase = "But can it run DOOM?"},
                 new() {IsNight = true, Phrase = "Kyocera DIGNO 3 (902KC)"},
             }
-        }
+        },
+        new DailyForecast()
+        {
+            Location = "28JAJATY0307",
+            Days =
+            {
+                new(),
+                new(),
+                new(),
+                new(),
+                new(),
+                new(),
+                new(),
+            }
+        },
     }
 };
 
