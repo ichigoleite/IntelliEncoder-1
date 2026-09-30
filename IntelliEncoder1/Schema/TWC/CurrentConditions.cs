@@ -62,11 +62,12 @@ public class CurrentConditions : DataRecord
     // pressureTendency -> Pressure Tendency
     public int PressureTendency = 0;
 
-    protected override async Task<string> Generate()
+    protected override async Task<string> GenerateInternal()
     {
 
         // Define base string.
         string recordBody = $"""
+
             # Current Conditions
             twccommon.Log.info("IntelliEncoder 1 - Sending Current Conditions data for location {Location}...")
 
