@@ -38,6 +38,20 @@ Payload payload = new()
                 new(),
             }
         },
+        new HourlyForecast()
+        {
+            Location = "28JAJATY0307",
+            Hours =
+            {
+                new(),
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 1)},
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 2)},
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 3)},
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 4)},
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 5)},
+                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 6)},
+            }
+        },
     }
 };
 
