@@ -30,11 +30,6 @@ public class DailyForecast : DataRecord
 
         // Generate daypart data.
 
-        // Get keyTime
-        DateTime midnightLocal = Time.Date;
-
-        long keyTime = ((DateTimeOffset)midnightLocal).ToUnixTimeSeconds();
-
         int dayIdx = 0;
 
         foreach (Day day in Days)
@@ -44,14 +39,15 @@ public class DailyForecast : DataRecord
             string dataName = $"daily_data_{dayNumber}";
 
             dataBody += $"""
-            # Day {dayNumber}   
+            # Day {dayNumber}  
+            keyTime = time.mktime((y,m,d+{dayIdx},0,0,0,wday,jday,-1))
             {dataName} = twc.Data()
             {(day.MaxTemp != null ? $"{dataName}.highTemp = {day.MaxTemp}" : "")}
             {dataName}.lowTemp = {(day.MinTemp != null ? day.MinTemp : "None")}
             {(day.DayIcon != null ? $"{dataName}.daySkyCondition = {day.DayIcon}" : "")}
             {dataName}.eveningSkyCondition = {(day.NightIcon != null ? day.NightIcon : "None")}
 
-            wxdata.setData("{Location}.{keyTime + (dayIdx * 86400)}", 'dailyFcst', {dataName}, {keyTime + (dayIdx * 86400) + 86400})
+            wxdata.setData("{Location}." + str(int(keyTime)), 'dailyFcst', {dataName}, int(keyTime + 86400))
 
             Log.info("IntelliEncoder 1 - Day {dayNumber} for {Location} set!")
 
@@ -67,6 +63,15 @@ public class DailyForecast : DataRecord
 
         # Start message
         Log.info("IntelliEncoder 1 - Sending Daily Forecast data for location {Location}...")
+
+        # Imports
+        import time
+
+        # Time 
+        y,m,d,H,M,S,wday,jday,dst = time.localtime(time.time())
+        # If past 4pm, we need to start with tomorrow
+        if H >= 16:
+            d = d+1
 
         # Days
 
