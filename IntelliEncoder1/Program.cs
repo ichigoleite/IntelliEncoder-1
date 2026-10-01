@@ -52,6 +52,14 @@ Payload payload = new()
                 new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 6)},
             }
         },
+        new Headline()
+        {
+            Area = "ZZZ111",
+            Alerts =
+            {
+                new()
+            }
+        }
     }
 };
 
