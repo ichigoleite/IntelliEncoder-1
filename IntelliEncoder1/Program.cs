@@ -1,67 +1,32 @@
-﻿using IntelliEncoder1.Schema.TWC;
+﻿using IntelliEncoder1;
+using IntelliEncoder1.Core;
 
-Console.WriteLine("Test.");
-Payload payload = new()
-{
-    DataRecords =
-    {
-        new CurrentConditions()
-        {
-            Location = "T28JAJATY0307"
-        },
-        new DaypartForecast()
-        {
-            Location = "28JAJATY0307",
-            Dayparts =
-            {
-                new() {IsNight = false, Phrase = "Test! Kirby kirby!"},
-                new() {IsNight = true, Phrase = "Trans rights are human rights!"},
-                new() {IsNight = false, Phrase = "Nano is Nano."},
-                new() {IsNight = true, Phrase = "America ya!"},
-                new() {IsNight = false, Phrase = "Filtered."},
-                new() {IsNight = true, Phrase = "Every day's great at your JUNES!"},
-                new() {IsNight = false, Phrase = "But can it run DOOM?"},
-                new() {IsNight = true, Phrase = "Kyocera DIGNO 3 (902KC)"},
-            }
-        },
-        new DailyForecast()
-        {
-            Location = "28JAJATY0307",
-            Days =
-            {
-                new(),
-                new(),
-                new(),
-                new(),
-                new(),
-                new(),
-                new(),
-            }
-        },
-        new HourlyForecast()
-        {
-            Location = "28JAJATY0307",
-            Hours =
-            {
-                new(),
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 1)},
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 2)},
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 3)},
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 4)},
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 5)},
-                new() {Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour + 6)},
-            }
-        },
-        new Headline()
-        {
-            Area = "ZZZ111",
-            Alerts =
-            {
-                new()
-            }
-        }
-    }
-};
+// Version Info
+string[] versioninfo = [
+    "v1.0",
+    "Currently in your area..."
+];
 
-// Write generated payload.
-File.WriteAllText("test.py", await payload.Generate());
+// Awesome banner
+Console.WriteLine("-----------------------------------------------------------------------");
+Console.WriteLine("""
+
+▐▓▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌   ▐▓▌   ▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌ ▐▓▓▓▓▌▐▓▓▓▓▌    ▐▓▓▌ 
+  ▐▓▌  ▐▓▓▌▐▓▌  ▐▓▌  ▐▓▌   ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▌   ▐▓▓▌▐▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▌   ▐▓▌▐▓▌     ▐▓▌ 
+  ▐▓▌  ▐▓▐▓▐▓▌  ▐▓▌  ▐▓▓▓▌ ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▓▓▌ ▐▓▐▓▐▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▓▓▌ ▐▓▓▓▓▌     ▐▓▌ 
+  ▐▓▌  ▐▓▌▐▓▓▌  ▐▓▌  ▐▓▌   ▐▓▌   ▐▓▌     ▐▓▌  ▐▓▌   ▐▓▌▐▓▓▌▐▓▌   ▐▓▌▐▓▌▐▓▌ ▐▓▌▐▓▌   ▐▓▐▓▌      ▐▓▌ 
+▐▓▓▓▓▓▌▐▓▌ ▐▓▌  ▐▓▌  ▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▓▌▐▓▓▓▓▌▐▓▌ ▐▓▌▐▓▓▓▓▌▐▓▓▓▓▌▐▓▓▓▓▌ ▐▓▓▓▓▌▐▓▌▐▓▌    ▐▓▓▓▌
+
+""");
+Console.WriteLine($"Version {versioninfo[0]} - {versioninfo[1]}");
+Console.WriteLine("Made by ichigoleite");
+Console.WriteLine("Special thanks for mariiful and kokoraii for MARIENCODER, the reference encoder used for this project.");
+Console.WriteLine("-----------------------------------------------------------------------");
+Console.WriteLine("\n");
+
+// Create config class.
+Config config = new Config();
+
+
+
+Console.WriteLine("Goodbye.");

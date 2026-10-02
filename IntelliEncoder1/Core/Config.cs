@@ -1,19 +1,20 @@
-// Placeholder from Encode2It
+// Code from Encode2It
 
-using System.Xml.Serialization;
+using IntelliEncoder1.Schema.IntelliEncoder;
+using Tomlyn;
 namespace IntelliEncoder1.Core;
 
 public class Config
 {
-    public object config = new();
+    public ConfigClass config = new();
 
     public Config()
     {
         // Check if file exists.
-        if (File.Exists("./config.xml"))
+        if (File.Exists("./config.toml"))
         {
             // If so, read it and set config.
-            object? tempconfig = (object?)new XmlSerializer(typeof(object)).Deserialize(File.OpenRead("./config.xml"));
+            ConfigClass? tempconfig = TomlSerializer.Deserialize<ConfigClass>(File.ReadAllText("./config.xml"));
 
             // Check if config failed to parse.
             if (tempconfig == null)
@@ -27,7 +28,7 @@ public class Config
         else
         {
             // Write config and exit.
-            new XmlSerializer(typeof(object)).Serialize(File.OpenWrite("./config.xml"), config);
+            File.WriteAllText("./config.xml", TomlSerializer.Serialize<ConfigClass>(new()));
             Console.WriteLine("Config doesn't exist, therefore we created a new config file. Please set all parameters and try again.");
             Environment.Exit(0);
         }
