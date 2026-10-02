@@ -27,6 +27,12 @@ Console.WriteLine("\n");
 // Create config class.
 Config config = new Config();
 
+// Create TimedTasks class.
+TimedTasks timedTasks = new TimedTasks(config);
 
+// Start loops.
+Task.WaitAll(
+    timedTasks.MainDataLoop()
+);
 
 Console.WriteLine("Goodbye.");
