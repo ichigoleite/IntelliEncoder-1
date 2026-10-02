@@ -7,7 +7,7 @@ public class Logger
 
     public string Name = "Log";
 
-    private Config Config = new();
+    private Config Config;
 
     public Logger(string name, Config config)
     {
