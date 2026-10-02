@@ -7,6 +7,7 @@ namespace IntelliEncoder1
     public class TimedTasks
     {
         Config config;
+        StarConfig StarConfig;
 
         SshClient SSHClient;
         SftpClient SFTPClient;
@@ -24,6 +25,8 @@ namespace IntelliEncoder1
 
             SFTPClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
 
+            // Import i1 config
+            StarConfig = new(SFTPClient);
         }
 
         public async Task MainDataLoop()
