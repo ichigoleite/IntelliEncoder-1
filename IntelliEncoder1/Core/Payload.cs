@@ -1,6 +1,6 @@
 // This generates the data payload for the IntelliStar 1.
 
-namespace IntelliEncoder1.Schema.TWC;
+namespace IntelliEncoder1.Core;
 
 public class Payload()
 {

@@ -1,4 +1,4 @@
-namespace IntelliEncoder1.Schema.TWC;
+namespace IntelliEncoder1.Core;
 
 abstract public class DataRecord
 {

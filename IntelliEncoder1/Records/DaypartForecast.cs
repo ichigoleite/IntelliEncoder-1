@@ -1,8 +1,7 @@
 // This generates daypart forecast data for the IntelliStar 1.
 
-using System.Text.RegularExpressions;
-
-namespace IntelliEncoder1.Schema.TWC;
+using IntelliEncoder1.Core;
+namespace IntelliEncoder1.Records;
 
 public class Daypart
 {
