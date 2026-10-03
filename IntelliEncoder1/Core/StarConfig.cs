@@ -1,6 +1,7 @@
 using System.Data.SQLite;
 using System.Text;
 using System.Text.RegularExpressions;
+using Dapper;
 using IntelliEncoder1.Inputs.TWC;
 using IntelliEncoder1.Schema.IntelliEncoder;
 using Renci.SshNet;
@@ -83,6 +84,7 @@ public partial class StarConfig
         string[][] checkLoc = ParseConfig(configText);
 
         Console.WriteLine($"Parsing config for IntelliStar 1 with headend ID {HeadendID}");
+        Task.WaitAll(LFRecordCheck(checkLoc));
     }
 
     // Checks if there's a valid LFRecord entry for the location.
@@ -145,6 +147,11 @@ public partial class StarConfig
                 }
 
             }
+            else
+            {
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT count(*) FROM LFRecord WHERE coopId = \"{coop}\" LIMIT 1");
+                Locations.Add(location);
+            }
         }
 
         // Check each observation station.
@@ -198,6 +205,11 @@ public partial class StarConfig
                     // if not add it to addedLIDs
                     addedLIDs[lid] = location;
                 }
+            }
+            else
+            {
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT count(*) FROM LFRecord WHERE obsStn = \"{obsstn}\" LIMIT 1");
+                ObsStns.Add(location);
             }
         }
 
