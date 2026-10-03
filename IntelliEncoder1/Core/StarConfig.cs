@@ -149,7 +149,7 @@ public partial class StarConfig
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT count(*) FROM LFRecord WHERE coopId = \"{coop}\" LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = \"{coop}\" LIMIT 1");
                 Locations.Add(location);
             }
         }
@@ -208,7 +208,7 @@ public partial class StarConfig
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT count(*) FROM LFRecord WHERE obsStn = \"{obsstn}\" LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE obsStn = \"{obsstn}\" LIMIT 1");
                 ObsStns.Add(location);
             }
         }
