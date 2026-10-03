@@ -7,8 +7,9 @@ namespace IntelliEncoder1.Core;
 public class Config
 {
     public ConfigClass config = new();
+    public HttpClient client;
 
-    public Config()
+    public Config(string[] verinfo)
     {
         // Check if file exists.
         if (File.Exists("./config.toml"))
@@ -24,6 +25,10 @@ public class Config
             }
 
             config = tempconfig;
+
+            // Add HttpClient.
+            client = new();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd($"IntelliEncoder {verinfo[0]}, https://github.com/ichigoleite/IntelliEncoder-1 (ichigoleite@ichigoleite.com)");
         }
         else
         {

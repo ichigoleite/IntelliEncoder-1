@@ -25,7 +25,18 @@ Console.WriteLine("-------------------------------------------------------------
 Console.WriteLine("\n");
 
 // Create config class.
-Config config = new Config();
+Config config = new(versioninfo);
+
+// Check if custom folder exists
+if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "Custom")))
+{
+  Console.WriteLine("Custom directory not made, making right now");
+  Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Custom"));
+
+  File.Copy(
+    Path.Combine(AppContext.BaseDirectory, "Data", "LFRecord.db"),
+    Path.Combine(AppContext.BaseDirectory, "Custom", "LFRecord.db"));
+}
 
 // Create TimedTasks class.
 TimedTasks timedTasks = new TimedTasks(config);
