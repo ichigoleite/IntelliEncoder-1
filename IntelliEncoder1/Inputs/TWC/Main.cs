@@ -55,6 +55,13 @@ public class InputsTWCMain
             {
                 dataRecords = [.. dataRecords.Concat(daily)];
             }
+
+            Logger.Info($"Grabbing Headlines for IntelliStar 1 {starConfig.HeadendID}...");
+            IS1Headline? headlines = await dataClient.Headline(location);
+            if (headlines != null)
+            {
+                dataRecords.Add(headlines);
+            }
         }
 
         Logger.Info($"Grabbed data for IntelliStar 1 {starConfig.HeadendID}...");
