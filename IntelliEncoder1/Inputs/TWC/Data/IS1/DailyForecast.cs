@@ -42,13 +42,14 @@ public partial class InputsTWCDataIS1
                         Phrase = daily.daypart[0].narrative?[i],
                         Icon = (int)daily.daypart[0].iconCodeExtend![i]!,
                         Temp = (int)daily.daypart[0].temperature![i]!,
+                        IsNight = daily.daypart[0].dayOrNight![i]! == "D" ? false : true
                     });
                     data_daily.Days.Add(new()
                     {
                         MaxTemp = daily.temperatureMax?[i],
                         MinTemp = daily.temperatureMin?[i],
-                        DayIcon = daily.daypart[0].iconCodeExtend?[i * 2],
-                        NightIcon = daily.daypart[0].iconCodeExtend?[i * 2 + 1],
+                        DayIcon = daily.daypart[0].iconCodeExtend?[i],
+                        NightIcon = daily.daypart[0].iconCodeExtend?[i + 1],
                     });
                 }
             }
