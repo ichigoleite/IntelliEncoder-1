@@ -24,8 +24,6 @@ public class InputsTWCMain
 
     public async Task<IS1DataRecord[]> RetrieveDataIS1(IS1StarConfig starConfig)
     {
-
-
         Logger.Info($"Starting data retrieval for IntelliStar 1 {starConfig.HeadendID}...");
         InputsTWCDataIS1 dataClient = new(Config, Logger);
         List<IS1DataRecord> dataRecords = [];
