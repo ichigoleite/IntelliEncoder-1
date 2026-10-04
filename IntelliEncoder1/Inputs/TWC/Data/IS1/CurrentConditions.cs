@@ -39,7 +39,7 @@ public partial class InputsTWCDataIS1
         // Grab data.
         try
         {
-            CurrentObservation? cc = await Client.GetFromJsonAsync<CurrentObservation>($"https://api.weather.com/wx/observations/?geocode={location.lat},{location.@long}&language={TWCConfig.Language}&units={TWCConfig.Units}&format=json&apiKey={TWCConfig.APIKey}");
+            CurrentObservation? cc = await Client.GetFromJsonAsync<CurrentObservation>($"https://api.weather.com/v3/wx/observations/current?geocode={location.lat},{location.@long}&language={TWCConfig.Language}&units={TWCConfig.Units}&format=json&apiKey={TWCConfig.APIKey}");
 
             if (cc == null)
             {
