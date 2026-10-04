@@ -51,7 +51,7 @@ public partial class IS1StarConfig
     // Regex for headend ID
     [GeneratedRegex(
         """
-        dsm\.set\('msoCode','(\w+)', \w+\)
+        dsm\.set\('headendId','(\w+)', \w+\)
         """,
         RegexOptions.IgnoreCase
         )
