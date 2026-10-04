@@ -10,6 +10,8 @@ public class IS1Daypart
     public int Icon = 3200;
     public int Temp = 0;
     public bool IsNight = false;
+    public long Time = 0;
+    public long Expiration = 0;
 }
 
 public class IS1DaypartForecast : IS1DataRecord
@@ -52,8 +54,8 @@ public class IS1DaypartForecast : IS1DataRecord
 
             string varName = $"{daypartCount}_{(daypart.IsNight ? 2 : 1)}";
             string dataName = $"daypart_data_{varName}";
-            string validTime = $"int(keyTime + {daypartIdx * 12 * 3600})";
-            string expiration = $"int({validTime} + 43200)";
+            string validTime = $"time.mktime(time.localtime({daypart.Time}))";
+            string expiration = $"time.mktime(time.localtime({daypart.Expiration}))";
 
             dataBody += $"""
             # Daypart {daypartCount} ({(isNight ? "Night" : "Day")})
@@ -95,19 +97,6 @@ public class IS1DaypartForecast : IS1DataRecord
 
         # Start message
         Log.info("IntelliEncoder 1 - Sending Daypart Forecast data for location {Location}...")
-
-        # Time
-        Y, M, D, h, m, s, wd, jd, dst = time.localtime(time.time())
-        dOffset = 0  # Always use offset of 0
-
-        keyTime = time.mktime((Y, M, D + dOffset, 5, 0, 0, 0, 0, -1))
-
-        times = [
-            keyTime,
-            keyTime + (12 * 3600),
-            keyTime + (24 * 3600),
-            keyTime + (36 * 3600)
-        ]
 
         # Number of dayparts
         numDayparts = {DaypartNum}
