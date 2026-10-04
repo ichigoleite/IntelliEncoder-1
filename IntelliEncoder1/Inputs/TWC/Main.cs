@@ -29,7 +29,6 @@ public class InputsTWCMain
         SftpClient sftpClient = new(star.Connection.Host, star.Connection.Port, star.Connection.Username, star.Connection.Password);
 
         // Connect to IS1
-        sshClient.Connect();
         sftpClient.Connect();
 
         // Make sure directories are made
@@ -38,8 +37,12 @@ public class InputsTWCMain
             sftpClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
         }
 
+        Directory.CreateDirectory(".temp/");
+
         // Retrieve STAR config
         IS1StarConfig starConfig = new(sftpClient, Config);
+
+        Directory.CreateDirectory($".temp/IS1/{starConfig.HeadendID}");
 
         Logger.Info($"Starting data retrieval for IntelliStar 1 {starConfig.HeadendID}...");
         InputsTWCDataIS1 dataClient = new(Config, Logger);
@@ -59,23 +62,30 @@ public class InputsTWCMain
         Logger.Info($"Generating data payload for IntelliStar 1 {starConfig.HeadendID}...");
         // Generate payload
         IS1Payload payload = new() { DataRecords = [.. dataRecords] };
-        MemoryStream stream = new();
-        string? payloadContent = payload.ToString();
+
+        string? payloadContent = await payload.Generate();
         if (payloadContent == null)
         {
             Logger.Error($"Could not generate IS1 payload for headend ID {starConfig.HeadendID}");
             return;
         }
-        stream.Write(Encoding.UTF8.GetBytes(payloadContent));
+        File.WriteAllText($".temp/IS1/{starConfig.HeadendID}/payload.py", payloadContent);
 
         // Upload payload
         Logger.Info($"Uploading data payload for IntelliStar 1 {starConfig.HeadendID}...");
-        sftpClient.UploadFile(stream, "/home/dgadmin/.intelliencoder/payload.py");
-        stream.Close();
+        if (sftpClient.Exists("/home/dgadmin/.intelliencoder/payload.py"))
+        {
+            sftpClient.Delete("/home/dgadmin/.intelliencoder/payload.py");
+        }
+        sftpClient.UploadFile(File.OpenRead($".temp/IS1/{starConfig.HeadendID}/payload.py"), "/home/dgadmin/.intelliencoder/payload.py");
+
+        Logger.Info($"Running data payload for IntelliStar 1 {starConfig.HeadendID}...");
+
+        sftpClient.Disconnect();
+        sshClient.Connect();
 
         // Run payload
-        sshClient.RunCommand("su dgadmin");
-        sshClient.RunCommand("runomni /twc/util/loadSCMTconfig.pyc /home/dgadmin/.intelliencoder/payload.py");
+        sshClient.RunCommand("su -l dgadmin -c '/usr/twc/digi/util/runomni /twc/util/loadSCMTconfig.pyc /home/dgadmin/.intelliencoder/payload.py'");
 
         Logger.Info($"Sucessfully sent data to the IS1 (Headend ID: {starConfig.HeadendID})");
         return;
