@@ -1,6 +1,6 @@
-namespace IntelliEncoder1.Core;
+namespace IntelliEncoder1.Core.IS1;
 
-abstract public class DataRecord
+abstract public class IS1DataRecord
 {
     // This is to define a record that will be added onto the payload.
 
