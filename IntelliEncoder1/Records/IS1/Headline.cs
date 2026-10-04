@@ -8,6 +8,8 @@ public class IS1Alert
     public string Text = "Nano Shinonome has triggered a massive explosion in Tokisadame.";
     public string Phenomena = "TCD";
     public string Significance = "W";
+    public string PIL = "SVS";
+    public string PILExt = "001";
     public DateTime Expiration = DateTime.UtcNow.AddHours(4);
 }
 
@@ -15,7 +17,9 @@ public class IS1Headline : IS1DataRecord
 {
 
     // Area
-    public string Area = "";
+    public string? Area;
+    // County
+    public string? County;
 
     // Alerts
     public List<IS1Alert> Alerts = [];
@@ -32,24 +36,52 @@ public class IS1Headline : IS1DataRecord
 
         foreach (IS1Alert alert in Alerts)
         {
-            string dataName = $"alert_{Area}_{alertIdx}";
+            if (Area != null)
+            {
+                string dataName = $"alert_{Area}_{alertIdx}";
 
-            dataBody += $"""
-            # Alert {alertIdx + 1} for area {Area}
+                dataBody += $"""
+                # Alert {alertIdx + 1} for area {Area}
 
-            areaList = wxdata.getUGCInterestList('{Area}', 'zone')
+                areaList = wxdata.getUGCInterestList('{Area}', 'zone')
 
-            for area in areaList:
-                {dataName} = twc.Data()
-                {dataName}.headline = "{alert.Text}"
-                {dataName}.phenSig = "{alert.Phenomena}_{alert.Significance}"
-                {dataName}.expiration = {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()}
+                for area in areaList:
+                    {dataName} = twc.Data()
+                    {dataName}.headline = "{alert.Text.Replace("\"", "\\\"")}"
+                    {dataName}.phenSig = "{alert.Phenomena}_{alert.Significance}"
+                    {dataName}.expiration = {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()}
 
-                wxdata.setHeadline(area, {dataName}, {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()})
+                    wxdata.setHeadline(area, {dataName}, {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()})
 
-            Log.info("IntelliEncoder 1 - Alert {alertIdx + 1} for area {Area} sent.")
+                Log.info("IntelliEncoder 1 - Alert {alertIdx + 1} for area {Area} sent.")
 
-            """;
+                """;
+            }
+
+            if (County != null)
+            {
+                string dataName = $"alert_{County}_{alertIdx}";
+
+                dataBody += $"""
+                # Alert {alertIdx + 1} for county {County}
+
+                counties = wxdata.getBulletinInterestList("{County}")
+
+                for county in counties:
+                    {dataName} = twc.Data()
+                    {dataName}.text = "{alert.Text.Replace("\"", "\\\"")}"
+                    {dataName}.pil = "{alert.PIL}"
+                    {dataName}.pilExt = "{alert.PILExt}"
+                    {dataName}.expiration = {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()}
+                    {dataName}.dispExpiration = {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()}
+
+                    wxdata.setBulletin(county, {dataName}, {((DateTimeOffset)alert.Expiration).ToUnixTimeSeconds()})
+
+                Log.info("IntelliEncoder 1 - Alert {alertIdx + 1} for county {County} sent.")
+
+                """;
+            }
+
 
             alertIdx += 1;
         }

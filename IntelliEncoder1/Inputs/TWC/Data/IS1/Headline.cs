@@ -9,8 +9,34 @@ namespace IntelliEncoder1.Inputs.TWC.Data.IS1;
 
 public partial class InputsTWCDataIS1
 {
-
-
+    // there's only lines for flash flood warning, severe thunderstorm warning, and tornado warning
+    // therefore we only include PILs for those, everything else it wouldn't matter anyways - IL
+    public static Dictionary<string, string[]> PhenomenaToPIL = new()
+    {
+        // Rain/Flood
+        {"FF_W", ["FFW", "001"]},
+        {"FA_W", ["FFW", "001"]},
+        {"FF_W", ["FFW", "001"]},
+        {"FF_W", ["FFW", "001"]},
+        {"flood_W", ["FFW", "001"]},
+        {"flood_WR", ["FFW", "001"]},
+        {"flood_WO", ["FFW", "001"]},
+        {"flood_WY", ["FFW", "001"]},
+        {"TFL_A", ["FFW", "001"]},
+        {"TFL_W", ["FFW", "001"]},
+        {"TRF_A", ["FFW", "001"]},
+        {"TRF_W", ["FFW", "001"]},
+        {"TRF_S", ["FFW", "001"]},
+        {"TFL_A", ["FFW", "001"]},
+        {"FL_W", ["FFW", "001"]},
+        // Thunderstorm
+        {"SV_W", ["SVR", "001"]},
+        {"TO_W", ["TOR", "001"]},
+        {"TTS_A", ["SVR", "001"]},
+        {"TTS_W", ["SVR", "001"]},
+        {"TTS_S", ["SVR", "001"]},
+        {"TTS_Y", ["SVR", "001"]},
+    };
 
     public async Task<IS1Headline?> Headline(LFRecordLocation location)
     {
@@ -22,7 +48,8 @@ public partial class InputsTWCDataIS1
 
         IS1Headline data = new()
         {
-            Area = location.zoneId
+            Area = location.zoneId,
+            County = location.cntyId
         };
 
         // Grab data.
@@ -37,11 +64,19 @@ public partial class InputsTWCDataIS1
 
             foreach (Alert alert in alerts.alerts)
             {
+                string key = $"{alert.phenomena}_{alert.significance}";
+                string[]? pil = null;
+                if (PhenomenaToPIL.ContainsKey(key))
+                {
+                    pil = PhenomenaToPIL[key];
+                }
                 data.Alerts.Add(new()
                 {
                     Text = alert.headlineText,
                     Phenomena = alert.phenomena,
                     Significance = alert.significance,
+                    PIL = pil?[0] ?? "SVS",
+                    PILExt = pil?[1] ?? "001",
                     Expiration = DateTimeOffset.FromUnixTimeSeconds(alert.expireTimeUTC).DateTime
                 });
             }
