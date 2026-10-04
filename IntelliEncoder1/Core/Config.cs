@@ -28,7 +28,7 @@ public class Config
 
             // Add HttpClient.
             client = new();
-            client.DefaultRequestHeaders.Add("User-Agent", $"IntelliEncoder {verinfo[0]} https://github.com/ichigoleite/IntelliEncoder-1 (ichigoleite@ichigoleite.com)");
+            client.DefaultRequestHeaders.Add("User-Agent", $"IntelliEncoder/{verinfo[0]} (ichigoleite@ichigoleite.com)");
         }
         else
         {
