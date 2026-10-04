@@ -59,11 +59,11 @@ public class IS1DaypartForecast : IS1DataRecord
 
             if (i + 1 >= Dayparts.Count)
             {
-                audioCode = GenerateAudioCode(daypart, Dayparts[i + 1], daypartCount);
+                audioCode = GenerateAudioCode(daypart, daypart, daypartCount);
             }
             else
             {
-                audioCode = GenerateAudioCode(daypart, daypart, daypartCount);
+                audioCode = GenerateAudioCode(daypart, Dayparts[i + 1], daypartCount);
             }
 
             dataBody += $"""
@@ -138,7 +138,7 @@ public class IS1DaypartForecast : IS1DataRecord
         // Longform
         audioCodes.Add($"X{daypart1.Icon}{daypart2.Icon}{daypartCount}1");
         // Short Cast
-        audioCodes.Add($"S{daypart1.Icon}");
+        audioCodes.Add($"S{daypart1.Icon}{daypartCount}");
         // Temperature
         audioCodes.Add($"TH{daypart1.Temp}");
 
