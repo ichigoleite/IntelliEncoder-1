@@ -1,4 +1,5 @@
 using IntelliEncoder1.Core;
+using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Schema.IntelliEncoder;
 namespace IntelliEncoder1.Inputs;
 
@@ -16,29 +17,21 @@ public class MainDataRetriever
         Logger = new("Inputs - Data Retriever (Main)", config);
     }
 
-    public async Task RetrieveData()
+    public async Task<IS1DataRecord[]> RetrieveDataIS1(IS1StarConfig starConfig)
     {
         Logger.Info("Retrieving data...");
         // Check what data sources exist
         ConfigClassInputs Inputs = Config.config.Inputs;
-        List<Task> tasks = [];
+        List<IS1DataRecord> dataRecords = [];
+
         if (Inputs.TWC.Enabled)
         {
             Logger.Info("Using TWC API to retrieve data.");
             InputsTWCMain input = new(Config);
-            foreach (ConfigClassSTAR star in Config.config.Stars)
-            {
-                if (star.Star == ConfigClassSTARTypes.IntelliStar1)
-                {
-                    tasks.Add(input.RetrieveDataIS1(star));
-                }
-            }
-        }
-        else
-        {
-            Logger.Info("None of the supported inputs are enabled.");
+            dataRecords = [.. dataRecords.Concat(await input.RetrieveDataIS1(starConfig))];
         }
 
-        Task.WaitAll(tasks);
+
+        return [.. dataRecords];
     }
 }
