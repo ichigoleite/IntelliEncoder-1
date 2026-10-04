@@ -44,5 +44,8 @@ public class InputsTWCMain
                 dataRecords.Add(cc);
             }
         }
+
+        // Generate payload
+        IS1Payload payload = new();
     }
 }

@@ -1,8 +1,8 @@
 // This generates the data payload for the IntelliStar 1.
 
-namespace IntelliEncoder1.Core;
+namespace IntelliEncoder1.Core.IS1;
 
-public class Payload()
+public class IS1Payload()
 {
     // List of DataRecords.
     public List<DataRecord> DataRecords = [];
