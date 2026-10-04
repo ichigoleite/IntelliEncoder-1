@@ -21,9 +21,6 @@ public class IS1HourlyForecast : IS1DataRecord
     // Location
     public string Location = "";
 
-    // Time
-    public DateTime Time = DateTime.Now;
-
     // Hours
     public List<IS1Hour> Hours = [];
 
@@ -71,7 +68,7 @@ public class IS1HourlyForecast : IS1DataRecord
         # Start message
         Log.info("IntelliEncoder 1 - Sending Hourly Forecast data for location {Location}...")
 
-        # Days
+        # Hours
 
         {dataBody}
 
