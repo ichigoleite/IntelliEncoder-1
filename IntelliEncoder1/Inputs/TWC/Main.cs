@@ -39,6 +39,17 @@ public class InputsTWCMain
             }
         }
 
+        // Grab all forecast data
+        foreach (LFRecordLocation location in starConfig.ObsStns)
+        {
+            Logger.Info($"Grabbing Hourly Forecast for IntelliStar 1 {starConfig.HeadendID}...");
+            IS1HourlyForecast? cc = await dataClient.HourlyForecast(location);
+            if (cc != null)
+            {
+                dataRecords.Add(cc);
+            }
+        }
+
         Logger.Info($"Grabbed data for IntelliStar 1 {starConfig.HeadendID}...");
 
         return [.. dataRecords];
