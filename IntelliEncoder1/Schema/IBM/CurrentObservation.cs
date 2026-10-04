@@ -77,21 +77,21 @@ public class CurrentObservation
      *
      * @example 0
      */
-    public int? precip1Hour { get; set; }
+    public double? precip1Hour { get; set; }
 
     /**
      * Rolling six hour liquid precipitation amount. Expressed in inches when units=e, millimeters when units=m, s, or h.
      *
      * @example 0
      */
-    public int? precip6Hour { get; set; }
+    public double? precip6Hour { get; set; }
 
     /**
      * Rolling twenty-four hour liquid precipitation amount. Expressed in inches when units=e, millimeters when units=m, s, or h.
      *
      * @example 0
      */
-    public int? precip24Hour { get; set; }
+    public double? precip24Hour { get; set; }
 
     /**
      * Barometric pressure. Expressed in inches of mercury when units=e, millibars when units=m, s, or h.
@@ -140,28 +140,28 @@ public class CurrentObservation
     *
     * @example 0
     */
-    public int? snow1Hour { get; set; }
+    public double? snow1Hour { get; set; }
 
     /**
     * Six hour snowfall amount. Expressed in inches when units=e, centimeters when units=m, s, or h.
     *
     * @example 0
     */
-    public int? snow6Hour { get; set; }
+    public double? snow6Hour { get; set; }
 
     /**
     * Twenty four hour snowfall amount. Expressed in inches when units=e, centimeters when units=m, s, or h.
     *
     * @example 0
     */
-    public int? snow24Hour { get; set; }
+    public double? snow24Hour { get; set; }
 
     /**
     * Local time of sunrise (ISO 8601 format). NULL for Arctic/Antarctic regions where sunrise doesn't occur.
     *
     * @example "2023-01-01T12:00:00Z"
     */
-    public DateTime? sunriseTimeLocal { get; set; }
+    public string? sunriseTimeLocal { get; set; }
 
     /**
     * Sunrise time in UNIX epoch value
@@ -175,7 +175,7 @@ public class CurrentObservation
     *
     * @example "2023-01-01T12:00:00Z"
     */
-    public DateTime? sunsetTimeLocal { get; set; }
+    public string? sunsetTimeLocal { get; set; }
 
     /**
     * Sunset time in UNIX epoch value
@@ -273,7 +273,7 @@ public class CurrentObservation
     *
     * @example "2023-01-01T12:00:00Z"
     */
-    public required DateTime validTimeLocal { get; set; }
+    public required string validTimeLocal { get; set; }
 
     /**
     * Time observation is valid in UNIX epoch value
