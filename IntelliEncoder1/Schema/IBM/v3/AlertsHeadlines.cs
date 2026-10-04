@@ -1,4 +1,4 @@
-
+namespace IntelliEncoder1.Schema.IBM.v3;
 
 /** Response containing alert headlines and pagination metadata */
 public class AlertsHeadlinesResponse
