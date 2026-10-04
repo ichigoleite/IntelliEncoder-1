@@ -1,4 +1,4 @@
-namespace MistWX_i2Me.Schema.ibm;
+namespace IntelliEncoder1.Schema.IBM;
 
 public class Almanac1DayResponse
 {

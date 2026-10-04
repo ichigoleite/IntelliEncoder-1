@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Schema.IBM;
 using IntelliEncoder1.Schema.IntelliEncoder;
-using MistWX_i2Me.Schema.ibm;
 namespace IntelliEncoder1.Inputs.TWC;
 
 public class InputsTWCLFRecord
