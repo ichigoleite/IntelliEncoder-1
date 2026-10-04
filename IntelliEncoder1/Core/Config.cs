@@ -15,7 +15,7 @@ public class Config
         if (File.Exists("./config.toml"))
         {
             // If so, read it and set config.
-            ConfigClass? tempconfig = TomlSerializer.Deserialize<ConfigClass>(File.ReadAllText("./config.xml"));
+            ConfigClass? tempconfig = TomlSerializer.Deserialize<ConfigClass>(File.ReadAllText("./config.toml"));
 
             // Check if config failed to parse.
             if (tempconfig == null)
