@@ -28,7 +28,7 @@ public class DailyForecastResponse
     * 
     * @example ["Sunday","Monday","Tuesday","Wednesday"] 
 */
-    public required string dayOfWeek { get; set; }
+    public required string[] dayOfWeek { get; set; }
 
     /** 
     * UNIX epoch time (seconds) at which this forecast expires and should be refreshed from the API. 
@@ -53,7 +53,7 @@ public class DailyForecastResponse
     * 
     * @example ["WNG","WNG","WNG","WNG"] 
 */
-    public required string moonPhaseCode { get; set; }
+    public required string[] moonPhaseCode { get; set; }
 
     /** 
     * Day number within the monthly lunar cycle (0–29) for each forecast day. Day 0 is New Moon; day 15 is approximately Full Moon. 
@@ -278,7 +278,7 @@ public class DaypartForecast
     * 
     * @example [null,"rain","rain","rain","rain","rain"] 
 */
-    public string? precipType { get; set; }
+    public string?[]? precipType { get; set; }
 
     /** 
     * Forecasted measurable liquid precipitation (or liquid equivalent) during each 12-hour daypart period. Units: inches when units=e, millimeters when units=m. 
@@ -378,7 +378,7 @@ public class DaypartForecast
     * 
     * @example [null,"No thunder","No thunder","No thunder","No thunder","No thunder"] 
 */
-    public string? thunderCategory { get; set; }
+    public string?[]? thunderCategory { get; set; }
 
     /** 
     * Numeric enumeration of thunderstorm probability for each 12-hour daypart period (0–5), where 0 = No thunder and 5 = High risk of severe thunderstorms. See `thunderCategory` for descriptive labels. 
@@ -395,7 +395,7 @@ public class DaypartForecast
     * 
     * @example [null,"Low","Very High","Low","Very High","Low"] 
 */
-    public string? uvDescription { get; set; }
+    public string?[]? uvDescription { get; set; }
 
     /** 
     * Maximum UV index during each 12-hour daypart period. Night dayparts always report 0. 
@@ -419,7 +419,7 @@ public class DaypartForecast
     * 
     * @example [null,"W","WSW","SSW","S","SSW"] 
 */
-    public string? windDirectionCardinal { get; set; }
+    public string?[]? windDirectionCardinal { get; set; }
 
     /** 
     * Human-readable phrase describing wind direction and speed for each 12-hour daypart (e.g., "Winds SSE at 5 to 10 mph."). Wind speed is the 10-minute average sustained wind speed; gusts are reported separately. Translated field — value depends on the `language` request parameter. 

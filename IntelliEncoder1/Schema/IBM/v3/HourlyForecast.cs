@@ -99,7 +99,7 @@ public class HourlyForecastResponse
     * 
     * @example [0] 
 */
-    public int[]? qpf { get; set; }
+    public double[]? qpf { get; set; }
 
     /** 
     * The forecasted hourly freezing rain accumulation for the upcoming hour. For example, if 
@@ -113,14 +113,14 @@ public class HourlyForecastResponse
     * 
     * @example [0] 
 */
-    public int?[]? qpfIce { get; set; }
+    public double?[]? qpfIce { get; set; }
 
     /** 
     * The forecasted measurable rain accumulation for the upcoming hour. 
     * 
     * @example [0] 
 */
-    public int[]? qpfRain { get; set; }
+    public double[]? qpfRain { get; set; }
 
     /** 
     * The forecasted hourly snow accumulation for the upcoming hour. For example, if the local 
@@ -132,7 +132,7 @@ public class HourlyForecastResponse
     * 
     * @example [0] 
 */
-    public int[]? qpfSnow { get; set; }
+    public double[]? qpfSnow { get; set; }
 
     /** 
     * The ratio of water vapor in the air relative to the amount required for saturation at a constant temperature. Always expressed as a percentage. Acceptable values are 0 to 100. 
@@ -283,7 +283,7 @@ public class HourlyForecastResponse
     * 
     * @example [10] 
 */
-    public int[]? visibility { get; set; }
+    public double[]? visibility { get; set; }
 
     /** 
     * Hourly average wind direction in true heading notation. Acceptable values are 0 to 359. 
