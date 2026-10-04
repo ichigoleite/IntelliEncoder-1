@@ -60,7 +60,7 @@ public class ConfigClassSTAR
 
 public class ConfigClass
 {
-    public ConfigClassSTAR[] Stars { get; set; } = [];
+    public ConfigClassSTAR[] Stars { get; set; } = [new()];
     public ConfigClassDataRecords DataRecords { get; set; } = new();
     public ConfigClassTimers Timers { get; set; } = new();
     public ConfigClassInputs Inputs { get; set; } = new();
