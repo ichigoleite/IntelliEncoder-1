@@ -28,7 +28,7 @@ public class IS1AdCrawl : IS1DataRecord
 
         foreach (IS1Crawl crawl in Crawls)
         {
-            dataBody += $"({crawl.Start},{crawl.End},[(0, 23)],'{crawl.MSOCode}','{crawl.Text}'),";
+            dataBody += $"({crawl.Start},{crawl.End},[(0, 23)],'{crawl.MSOCode}','{crawl.Text.Replace("'", "\\'")}'),";
         }
 
         // Define base string.
