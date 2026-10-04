@@ -51,6 +51,7 @@ public partial class InputsTWCDataIS1
                 Location = location.obsStn ?? "",
                 Expiration = cc.expirationTimeUtc + 3600,
                 SkyCondition = cc.iconCodeExtend,
+                Temperature = cc.temperature,
                 RelativeHumidity = cc.relativeHumidity,
                 FeelsLike = cc.temperatureFeelsLike,
                 HeatIndex = cc.temperatureHeatIndex,
