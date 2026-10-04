@@ -1,4 +1,4 @@
-
+namespace IntelliEncoder1.Schema.IBM.v3;
 
 /** 
 * Daily forecast response. Top-level arrays represent the 24-hour daily summary for each forecast day. The `daypart` array contains a single object whose inner arrays interleave day (D) and night (N) segments for each day. 
