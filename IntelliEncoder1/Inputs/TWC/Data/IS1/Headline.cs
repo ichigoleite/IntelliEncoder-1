@@ -84,7 +84,7 @@ public partial class InputsTWCDataIS1
         }
         catch (JsonException e)
         {
-            Logger.Error($"{location.zoneId} has no alerts.");
+            Logger.Info($"{location.zoneId} has no alerts.");
             Logger.Debug(e.ToString());
             return null;
         }
