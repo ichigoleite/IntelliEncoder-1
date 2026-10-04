@@ -33,7 +33,7 @@ public class Config
         else
         {
             // Write config and exit.
-            File.WriteAllText("./config.xml", TomlSerializer.Serialize<ConfigClass>(new()));
+            File.WriteAllText("./config.toml", TomlSerializer.Serialize<ConfigClass>(new()));
             Console.WriteLine("Config doesn't exist, therefore we created a new config file. Please set all parameters and try again.");
             Environment.Exit(0);
         }
