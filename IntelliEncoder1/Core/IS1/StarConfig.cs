@@ -149,12 +149,15 @@ public partial class IS1StarConfig
             {
                 LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = '{coop.Trim()}' LIMIT 1");
                 Locations.Add(location);
+                // if not add it to addedLIDs
+                addedLIDs[$"{location.locType}_{location.siteId}_{location.locId}"] = location;
             }
         }
 
         // Check each observation station.
-        foreach (string obsstn in checkLoc[1])
+        foreach (string obsstnuf in checkLoc[1])
         {
+            string obsstn = obsstnuf.Trim();
             Console.WriteLine($"Checking observation station {obsstn}...");
             var cmd = sqlite.CreateCommand();
             cmd.CommandText = $"SELECT count(*) FROM LFRecord WHERE obsStn = '{obsstn.Trim()}' LIMIT 1";
@@ -186,7 +189,8 @@ public partial class IS1StarConfig
                     // Check if ID isn't already added
                     if (addedLIDs.ContainsKey(lid))
                     {
-                        Console.WriteLine($"Coop {lid} already exists in LFRecord. Skipping...");
+                        Console.WriteLine($"ObsStn {lid} already exists in LFRecord. Skipping...");
+                        addedLIDs[lid].obsStn = obsstn.Trim();
                         ObsStns.Add(addedLIDs[lid]);
                         continue;
                     }
