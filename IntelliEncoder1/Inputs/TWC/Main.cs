@@ -33,17 +33,22 @@ public class InputsTWCMain
         sftpClient.Connect();
 
         // Make sure directories are made
-        sftpClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
+        if (!sftpClient.Exists("/home/dgadmin/.intelliencoder/"))
+        {
+            sftpClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
+        }
 
         // Retrieve STAR config
         IS1StarConfig starConfig = new(sftpClient, Config);
 
+        Logger.Info($"Starting data retrieval for IntelliStar 1 {starConfig.HeadendID}...");
         InputsTWCDataIS1 dataClient = new(Config, Logger);
         List<IS1DataRecord> dataRecords = [];
 
         // Grab all observations
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
+            Logger.Info($"Grabbing Current Conditions for IntelliStar 1 {starConfig.HeadendID}...");
             IS1CurrentConditions? cc = await dataClient.CurrentConditions(location);
             if (cc != null)
             {
@@ -51,6 +56,7 @@ public class InputsTWCMain
             }
         }
 
+        Logger.Info($"Generating data payload for IntelliStar 1 {starConfig.HeadendID}...");
         // Generate payload
         IS1Payload payload = new() { DataRecords = [.. dataRecords] };
         MemoryStream stream = new();
@@ -63,6 +69,7 @@ public class InputsTWCMain
         stream.Write(Encoding.UTF8.GetBytes(payloadContent));
 
         // Upload payload
+        Logger.Info($"Uploading data payload for IntelliStar 1 {starConfig.HeadendID}...");
         sftpClient.UploadFile(stream, "/home/dgadmin/.intelliencoder/payload.py");
         stream.Close();
 
