@@ -31,17 +31,18 @@ public partial class InputsTWCDataIS1
 
             if (hourly.validTimeUtc != null)
             {
-                for (var i = 0; i >= hourly.validTimeUtc.Length; i++)
+                for (int i = 0; i < hourly.validTimeUtc?.Length; i++)
                 {
                     data.Hours.Add(new()
                     {
-                        MaxTemp = hourly.temperature![i],
-                        MinTemp = hourly.temperature![i],
-                        WindSpeed = hourly.windSpeed![i],
-                        WindDir = CardinalToWindIntMap[hourly.windDirectionCardinal![i]],
-                        Temperature = hourly.temperature![i],
-                        Condition = hourly.iconCodeExtend![i],
-                        PrecipitationChance = hourly.precipChance![i]
+                        Time = DateTimeOffset.FromUnixTimeSeconds(hourly.validTimeUtc?[i] ?? 0).DateTime,
+                        MaxTemp = hourly.temperature?[i] ?? 0,
+                        MinTemp = hourly.temperature?[i] ?? 0,
+                        WindSpeed = hourly.windSpeed?[i] ?? 0,
+                        WindDir = CardinalToWindIntMap[hourly.windDirectionCardinal?[i] ?? "CALM"],
+                        Temperature = hourly.temperature?[i] ?? 0,
+                        Condition = hourly.iconCodeExtend?[i] ?? 3200,
+                        PrecipitationChance = hourly.precipChance?[i] ?? 0
                     });
                 }
             }

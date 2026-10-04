@@ -34,7 +34,7 @@ public partial class InputsTWCDataIS1
 
             if (daily.validTimeUtc != null)
             {
-                for (var i = 0; i >= daily.validTimeUtc.Length; i++)
+                for (var i = 0; i < daily.validTimeUtc.Length; i++)
                 {
                     data.Dayparts.Add(new()
                     {
