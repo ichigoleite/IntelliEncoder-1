@@ -49,7 +49,7 @@ public partial class InputsTWCDataIS1
             return new()
             {
                 Location = location.obsStn ?? "",
-                Expiration = cc.expirationTimeUtc,
+                Expiration = cc.expirationTimeUtc + 3600,
                 SkyCondition = cc.iconCodeExtend,
                 RelativeHumidity = cc.relativeHumidity,
                 FeelsLike = cc.temperatureFeelsLike,
