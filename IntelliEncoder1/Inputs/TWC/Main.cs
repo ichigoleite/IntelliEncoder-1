@@ -28,6 +28,10 @@ public class InputsTWCMain
         SshClient sshClient = new(star.Connection.Host, star.Connection.Port, star.Connection.Username, star.Connection.Password);
         SftpClient sftpClient = new(star.Connection.Host, star.Connection.Port, star.Connection.Username, star.Connection.Password);
 
+        // Connect to IS1
+        sshClient.Connect();
+        sftpClient.Connect();
+
         // Make sure directories are made
         sftpClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
 
