@@ -25,9 +25,16 @@ public class ConfigClassInputsTWC
     public string Language { get; set; } = "en-US";
 }
 
+public class ConfigClassInputsAdCrawl
+{
+    public bool Enabled { get; set; } = true;
+    public string URL { get; set; } = "https://example.com";
+}
+
 public class ConfigClassInputs
 {
     public ConfigClassInputsTWC TWC { get; set; } = new();
+    public ConfigClassInputsAdCrawl AdCrawl { get; set; } = new();
 }
 
 public class ConfigClassLog
