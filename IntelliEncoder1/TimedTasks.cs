@@ -1,3 +1,4 @@
+using System.Buffers;
 using IntelliEncoder1.Clients.IS1;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
@@ -23,17 +24,27 @@ namespace IntelliEncoder1
 
         public async Task MainDataLoop()
         {
-            // Check what data sources exist
-            List<Task> tasks = [];
 
             foreach (ConfigClassSTAR star in Config.config.Stars)
             {
                 if (star.Star == ConfigClassSTARTypes.IntelliStar1)
                 {
-                    SSHClient sshClient = new(star, Config);
+                    IS1StarConfig starConfig;
+                    SSHClient sshClient;
 
-                    sshClient.Prepare();
-                    IS1StarConfig starConfig = sshClient.GrabStarConfig();
+                    if (star.Method == ConfigClassSTARMethods.SSH)
+                    {
+                        sshClient = new(star, Config);
+
+                        sshClient.Prepare();
+                        starConfig = sshClient.GrabStarConfig();
+                    }
+                    else
+                    {
+                        Logger.Warn("IntelliStar 1 config has an unknown method.");
+                        continue;
+                    }
+
 
                     Directory.CreateDirectory($".temp/IS1/{starConfig.HeadendID}");
 
@@ -52,7 +63,11 @@ namespace IntelliEncoder1
                     }
                     File.WriteAllText($".temp/IS1/{starConfig.HeadendID}/payload.py", payloadContent);
 
-                    sshClient.SendPayload(starConfig);
+
+                    if (star.Method == ConfigClassSTARMethods.SSH)
+                    {
+                        sshClient.SendPayload(starConfig);
+                    }
                 }
             }
         }
