@@ -32,10 +32,10 @@ public class InputsTWCMain
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
             Logger.Info($"Grabbing Current Conditions for IntelliStar 1 {starConfig.HeadendID}...");
-            IS1CurrentConditions? cc = await dataClient.CurrentConditions(location);
-            if (cc != null)
+            IS1CurrentConditions? data = await dataClient.CurrentConditions(location);
+            if (data != null)
             {
-                dataRecords.Add(cc);
+                dataRecords.Add(data);
             }
         }
 
@@ -43,10 +43,17 @@ public class InputsTWCMain
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
             Logger.Info($"Grabbing Hourly Forecast for IntelliStar 1 {starConfig.HeadendID}...");
-            IS1HourlyForecast? cc = await dataClient.HourlyForecast(location);
-            if (cc != null)
+            IS1HourlyForecast? hourly = await dataClient.HourlyForecast(location);
+            if (hourly != null)
             {
-                dataRecords.Add(cc);
+                dataRecords.Add(hourly);
+            }
+
+            Logger.Info($"Grabbing Daily Forecast for IntelliStar 1 {starConfig.HeadendID}...");
+            IS1DataRecord[]? daily = await dataClient.DailyForecast(location);
+            if (daily != null)
+            {
+                dataRecords = [.. dataRecords.Concat(daily)];
             }
         }
 
