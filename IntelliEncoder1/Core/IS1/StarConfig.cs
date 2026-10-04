@@ -32,8 +32,7 @@ public partial class IS1StarConfig
     [GeneratedRegex(
         """
         wxdata\.setInterestList\('(\w+)',\s*'[^']*',\s*\[([^\]]*)\]\)
-        """,
-        RegexOptions.IgnoreCase
+        """
         )
     ]
     private static partial Regex InterestListPattern();
@@ -42,8 +41,7 @@ public partial class IS1StarConfig
     [GeneratedRegex(
         """
         dsm\.set\('msoCode','(\w+)', \w+\)
-        """,
-        RegexOptions.IgnoreCase
+        """
         )
     ]
     private static partial Regex MSOCode();
@@ -52,8 +50,7 @@ public partial class IS1StarConfig
     [GeneratedRegex(
         """
         dsm\.set\('headendId','(\w+)', \w+\)
-        """,
-        RegexOptions.IgnoreCase
+        """
         )
     ]
     private static partial Regex HeadendCode();
@@ -62,8 +59,7 @@ public partial class IS1StarConfig
     [GeneratedRegex(
         """
         ([0-9]{1,2})([a-zA-Z]{2})([a-zA-Z0-9]{8})
-        """,
-        RegexOptions.IgnoreCase
+        """
         )
     ]
     private static partial Regex I2MELID();
@@ -91,7 +87,6 @@ public partial class IS1StarConfig
     // If not, then it generates one.
     private async Task LFRecordCheck(string[][] checkLoc)
     {
-
         string lfrPath = Path.Combine(AppContext.BaseDirectory, "Custom", "LFRecord.db");
         // Check if all locations have a LFRecord.
         SQLiteConnection sqlite = new($"Data Source={lfrPath}", true);
@@ -106,15 +101,17 @@ public partial class IS1StarConfig
         // Check each location.
         foreach (string coop in checkLoc[0])
         {
+            Console.WriteLine($"Checking COOP {coop}...");
             var cmd = sqlite.CreateCommand();
-            cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE coopId = \"{coop}\" LIMIT 1");
+            cmd.CommandText = $"SELECT count(*) FROM LFRecord WHERE coopId = \'{coop}\' LIMIT 1";
 
-            if ((int)cmd.ExecuteScalar() == 0)
+            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
             {
                 custom = true;
 
                 if (Config.config.Inputs.TWC.Enabled)
                 {
+                    Console.WriteLine($"COOP {coop} doesn't exist in LFRecord, generating entry...");
                     // Attempt to parse this as a location added from a IntelliEncoder 1/MistWX-i2ME LFRecord.
                     Match match = I2MELID().Match(coop);
                     if (!match.Success)
@@ -124,9 +121,9 @@ public partial class IS1StarConfig
                     }
 
                     // Location ID variables.
-                    int type = Int32.Parse(match.Groups[0].Value);
-                    string country = match.Groups[1].Value;
-                    string code = match.Groups[2].Value;
+                    int type = Int32.Parse(match.Groups[1].Value);
+                    string country = match.Groups[2].Value;
+                    string code = match.Groups[3].Value;
 
                     // Location ID as string
                     string lid = $"{type}_{country}_{code}";
@@ -149,7 +146,7 @@ public partial class IS1StarConfig
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = \"{coop}\" LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = \'{coop}\' LIMIT 1");
                 Locations.Add(location);
             }
         }
@@ -157,23 +154,25 @@ public partial class IS1StarConfig
         // Check each observation station.
         foreach (string obsstn in checkLoc[1])
         {
+            Console.WriteLine($"Checking observation station {obsstn}...");
             var cmd = sqlite.CreateCommand();
-            cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE obsStn = \"{obsstn}\" LIMIT 1");
-            if ((int)cmd.ExecuteScalar() == 0)
+            cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE obsStn = \'{obsstn}\' LIMIT 1");
+            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
             {
-                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE secObsStn = \"{obsstn}\" LIMIT 1");
+                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE secObsStn = \'{obsstn}\' LIMIT 1");
             }
-            if ((int)cmd.ExecuteScalar() == 0)
+            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
             {
-                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE tertObsStn = \"{obsstn}\" LIMIT 1");
+                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE tertObsStn = \'{obsstn}\' LIMIT 1");
             }
 
-            if ((int)cmd.ExecuteScalar() == 0)
+            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
             {
                 custom = true;
 
                 if (Config.config.Inputs.TWC.Enabled)
                 {
+                    Console.WriteLine($"Observation station {obsstn} doesn't exist in LFRecord, generating entry...");
                     // Attempt to parse this as a location added from a IntelliEncoder 1/MistWX-i2ME LFRecord.
                     Match match = I2MELID().Match(obsstn);
                     if (!match.Success)
@@ -183,9 +182,9 @@ public partial class IS1StarConfig
                     }
 
                     // Location ID variables.
-                    int type = Int32.Parse(match.Groups[0].Value);
-                    string country = match.Groups[1].Value;
-                    string code = match.Groups[2].Value;
+                    int type = Int32.Parse(match.Groups[1].Value);
+                    string country = match.Groups[2].Value;
+                    string code = match.Groups[3].Value;
 
                     // Location ID as string
                     string lid = $"{type}_{country}_{code}";
@@ -208,7 +207,7 @@ public partial class IS1StarConfig
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE obsStn = \"{obsstn}\" LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE obsStn = \'{obsstn}\' LIMIT 1");
                 ObsStns.Add(location);
             }
         }
@@ -304,13 +303,14 @@ public partial class IS1StarConfig
         string[] locations = [];
         string[] obsstns = [];
 
-        Match matches = InterestListPattern().Match(config);
-        for (var i = 0; i >= matches.Length; i++)
+        MatchCollection matches = InterestListPattern().Matches(config);
+
+        foreach (Match match in matches)
         {
-            if (matches.Groups.Count == 2)
+            if (match.Groups.Count == 3)
             {
-                string type = matches.Groups[0].Value;
-                string[] data = matches.Groups[1].Value.Replace("'", "").Split(",");
+                string type = match.Groups[1].Value;
+                string[] data = match.Groups[2].Value.Replace("'", "").Split(",");
                 if (type == "mapData")
                 {
                     Maps = data;
@@ -368,7 +368,6 @@ public partial class IS1StarConfig
                     Counties = data;
                 }
             }
-            matches = matches.NextMatch();
         }
 
         Match msoCodeMatch = MSOCode().Match(config);
@@ -376,7 +375,7 @@ public partial class IS1StarConfig
         {
             if (msoCodeMatch.Groups.Count >= 1)
             {
-                MSOId = msoCodeMatch.Groups[0].Value;
+                MSOId = msoCodeMatch.Groups[1].Value;
             }
         }
 
@@ -385,7 +384,7 @@ public partial class IS1StarConfig
         {
             if (headendIDMatch.Groups.Count >= 1)
             {
-                HeadendID = headendIDMatch.Groups[0].Value;
+                HeadendID = headendIDMatch.Groups[1].Value;
             }
         }
 
