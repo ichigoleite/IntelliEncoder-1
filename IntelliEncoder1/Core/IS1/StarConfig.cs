@@ -6,9 +6,9 @@ using IntelliEncoder1.Inputs.TWC;
 using IntelliEncoder1.Schema.IntelliEncoder;
 using Renci.SshNet;
 
-namespace IntelliEncoder1.Core;
+namespace IntelliEncoder1.Core.IS1;
 
-public partial class StarConfig
+public partial class IS1StarConfig
 {
     public string MSOId = "";
     public string HeadendID = "";
@@ -68,7 +68,7 @@ public partial class StarConfig
     ]
     private static partial Regex I2MELID();
 
-    public StarConfig(SftpClient sftpClient, Config config)
+    public IS1StarConfig(SftpClient sftpClient, Config config)
     {
         // Set config.
         Config = config;

@@ -1,30 +1,48 @@
 using IntelliEncoder1.Core;
+using IntelliEncoder1.Core.IS1;
+using IntelliEncoder1.Inputs.TWC.Data.IS1;
+using IntelliEncoder1.Records;
 using IntelliEncoder1.Schema.IntelliEncoder;
+using Renci.SshNet;
 namespace IntelliEncoder1.Inputs;
 
 public class InputsTWCMain
 {
     Logger Logger;
     Config Config;
-    StarConfig StarConfig;
 
-    public InputsTWCMain(Config config, StarConfig starConfig)
+    public InputsTWCMain(Config config)
     {
         // Set config.
         Config = config;
-        StarConfig = starConfig;
 
         // Make logger.
         Logger = new("Inputs - Data Retriever (Main) - TWC", config);
     }
 
-    public async Task<DataRecord[]?> RetrieveData()
+    public async Task RetrieveDataIS1(ConfigClassSTAR star)
     {
-        // Check what data sources exist
-        ConfigClassInputs Inputs = Config.config.Inputs;
-        if (Inputs.TWC.Enabled)
+        // SSH clients
+        SshClient sshClient = new(star.Connection.Host, star.Connection.Port, star.Connection.Username, star.Connection.Password);
+        SftpClient sftpClient = new(star.Connection.Host, star.Connection.Port, star.Connection.Username, star.Connection.Password);
+
+        // Make sure directories are made
+        sftpClient.CreateDirectory("/home/dgadmin/.intelliencoder/");
+
+        // Retrieve STAR config
+        IS1StarConfig starConfig = new(sftpClient, Config);
+
+        InputsTWCDataIS1 dataClient = new(Config, Logger);
+        List<DataRecord> dataRecords = [];
+
+        // Grab all observations
+        foreach (LFRecordLocation location in starConfig.ObsStns)
         {
-            return null;
+            CurrentConditions? cc = await dataClient.CurrentConditions(location);
+            if (cc != null)
+            {
+                dataRecords.Add(cc);
+            }
         }
     }
 }

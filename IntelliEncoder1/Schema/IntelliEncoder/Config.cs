@@ -1,6 +1,6 @@
 namespace IntelliEncoder1.Schema.IntelliEncoder;
 
-public class ConfigClassSSH
+public class ConfigClassSTARConnection
 {
     public string Host { get; set; } = "127.0.0.1";
     public int Port { get; set; } = 22;
@@ -40,9 +40,27 @@ public class ConfigClassTimers
     public int DataTimer { get; set; } = 1800000;
 }
 
+public enum ConfigClassSTARTypes
+{
+    IntelliStar1,
+}
+
+public enum ConfigClassSTARMethods
+{
+    SSH,
+}
+
+public class ConfigClassSTAR
+{
+    public ConfigClassSTARTypes Star { get; set; } = ConfigClassSTARTypes.IntelliStar1;
+    public ConfigClassSTARMethods Method { get; set; } = ConfigClassSTARMethods.SSH;
+    public ConfigClassSTARConnection Connection { get; set; } = new();
+
+}
+
 public class ConfigClass
 {
-    public ConfigClassSSH SSH { get; set; } = new();
+    public ConfigClassSTAR[] Stars { get; set; } = [];
     public ConfigClassDataRecords DataRecords { get; set; } = new();
     public ConfigClassTimers Timers { get; set; } = new();
     public ConfigClassInputs Inputs { get; set; } = new();
