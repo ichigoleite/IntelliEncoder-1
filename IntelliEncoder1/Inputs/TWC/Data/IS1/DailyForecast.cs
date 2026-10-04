@@ -15,11 +15,11 @@ public partial class InputsTWCDataIS1
     {
         IS1DaypartForecast data = new()
         {
-            Location = location.obsStn ?? "",
+            Location = location.coopId ?? "",
         };
         IS1DailyForecast data_daily = new()
         {
-            Location = location.obsStn ?? "",
+            Location = location.coopId ?? "",
         };
 
         // Grab data.

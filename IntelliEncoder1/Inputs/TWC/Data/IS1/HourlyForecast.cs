@@ -16,7 +16,7 @@ public partial class InputsTWCDataIS1
     {
         IS1HourlyForecast data = new()
         {
-            Location = location.obsStn ?? "",
+            Location = location.coopId ?? "",
         };
 
         // Grab data.
