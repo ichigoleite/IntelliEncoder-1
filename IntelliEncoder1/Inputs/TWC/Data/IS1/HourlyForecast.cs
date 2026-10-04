@@ -55,7 +55,7 @@ public partial class InputsTWCDataIS1
         }
         catch (Exception e)
         {
-            Logger.Error($"Could not grab Current Conditions data for observation station {location.obsStn}!");
+            Logger.Error($"Could not grab Hourly Forecast data for observation station {location.obsStn}!");
             Logger.Error(e.ToString());
             return null;
         }
