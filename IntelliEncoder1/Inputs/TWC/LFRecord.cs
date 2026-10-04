@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Schema.IBM;
+using IntelliEncoder1.Schema.IBM.v3;
 using IntelliEncoder1.Schema.IntelliEncoder;
 namespace IntelliEncoder1.Inputs.TWC;
 
@@ -65,7 +66,7 @@ public class InputsTWCLFRecord
         // Grab data.
         ConfigClassInputsTWC twcConfig = Config.config.Inputs.TWC;
 
-        LocServPointResponse? point = await Config.client.GetFromJsonAsync<LocServPointResponse>($"https://api.weather.com/v3/location/point?locid={id}:{type}:{country}&language={twcConfig.Language}&format=json&apiKey={twcConfig.APIKey}");
+        LocationPointResponse? point = await Config.client.GetFromJsonAsync<LocationPointResponse>($"https://api.weather.com/v3/location/point?locid={id}:{type}:{country}&language={twcConfig.Language}&format=json&apiKey={twcConfig.APIKey}");
 
         if (point != null)
         {
@@ -272,14 +273,14 @@ public class InputsTWCLFRecord
 
                 DateTime start45Day = DateTime.Now.Subtract(TimeSpan.FromDays(45));
 
-                LocServNearAirportResponse? airport = null;
-                LocServNearSkiResponse? ski = null;
-                LocServNearObsResponse? obs = null;
-                Almanac1DayResponse? al = null;
+                LocationNearResponse<AirportNearResponse>? airport = null;
+                LocationNearResponse<SkiNearResponse>? ski = null;
+                LocationNearResponse<ObservationNearResponse>? obs = null;
+                AlmanacDailyRecord? al = null;
 
                 try
                 {
-                    airport = await Config.client.GetFromJsonAsync<LocServNearAirportResponse>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=airport&format=json&apiKey={twcConfig.APIKey}");
+                    airport = await Config.client.GetFromJsonAsync<LocationNearResponse<AirportNearResponse>>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=airport&format=json&apiKey={twcConfig.APIKey}");
                 }
                 catch
                 {
@@ -287,7 +288,7 @@ public class InputsTWCLFRecord
                 }
                 try
                 {
-                    ski = await Config.client.GetFromJsonAsync<LocServNearSkiResponse>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=ski&format=json&apiKey={twcConfig.APIKey}");
+                    ski = await Config.client.GetFromJsonAsync<LocationNearResponse<SkiNearResponse>>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=ski&format=json&apiKey={twcConfig.APIKey}");
                 }
                 catch
                 {
@@ -295,7 +296,7 @@ public class InputsTWCLFRecord
                 }
                 try
                 {
-                    obs = await Config.client.GetFromJsonAsync<LocServNearObsResponse>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=observation&format=json&apiKey={twcConfig.APIKey}");
+                    obs = await Config.client.GetFromJsonAsync<LocationNearResponse<ObservationNearResponse>>($"https://api.weather.com/v3/location/near?geocode={tempLF.lat},{tempLF.@long}&product=observation&format=json&apiKey={twcConfig.APIKey}");
                 }
                 catch
                 {
@@ -303,7 +304,7 @@ public class InputsTWCLFRecord
                 }
                 try
                 {
-                    al = await Config.client.GetFromJsonAsync<Almanac1DayResponse>($"https://api.weather.com/v3/wx/almanac/daily/45day?geocode={tempLF.lat},{tempLF.@long}&format=json&units={twcConfig.Units}&startDay={start45Day.ToString("dd")}&startMonth={start45Day.ToString("MM")}&apiKey={twcConfig.APIKey}");
+                    al = await Config.client.GetFromJsonAsync<AlmanacDailyRecord>($"https://api.weather.com/v3/wx/almanac/daily/45day?geocode={tempLF.lat},{tempLF.@long}&format=json&units={twcConfig.Units}&startDay={start45Day.ToString("dd")}&startMonth={start45Day.ToString("MM")}&apiKey={twcConfig.APIKey}");
                 }
                 catch
                 {

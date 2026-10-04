@@ -2,7 +2,7 @@ using System.Data;
 using System.Net.Http.Json;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Records.IS1;
-using IntelliEncoder1.Schema.IBM;
+using IntelliEncoder1.Schema.IBM.v3;
 using IntelliEncoder1.Schema.IntelliEncoder;
 
 namespace IntelliEncoder1.Inputs.TWC.Data.IS1;

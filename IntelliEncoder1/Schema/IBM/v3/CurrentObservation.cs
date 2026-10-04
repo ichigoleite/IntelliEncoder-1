@@ -1,4 +1,4 @@
-namespace IntelliEncoder1.Schema.IBM;
+namespace IntelliEncoder1.Schema.IBM.v3;
 
 /** Current weather observation data */
 public class CurrentObservation
