@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Unicode;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Inputs.TWC.Data.IS1;
@@ -46,6 +48,25 @@ public class InputsTWCMain
         }
 
         // Generate payload
-        IS1Payload payload = new();
+        IS1Payload payload = new() { DataRecords = [.. dataRecords] };
+        MemoryStream stream = new();
+        string? payloadContent = payload.ToString();
+        if (payloadContent == null)
+        {
+            Logger.Error($"Could not generate IS1 payload for headend ID {starConfig.HeadendID}");
+            return;
+        }
+        stream.Write(Encoding.UTF8.GetBytes(payloadContent));
+
+        // Upload payload
+        sftpClient.UploadFile(stream, "/home/dgadmin/.intelliencoder/payload.py");
+        stream.Close();
+
+        // Run payload
+        sshClient.RunCommand("su dgadmin");
+        sshClient.RunCommand("runomni /twc/util/loadSCMTconfig.pyc /home/dgadmin/.intelliencoder/payload.py");
+
+        Logger.Info($"Sucessfully sent data to the IS1 (Headend ID: {starConfig.HeadendID})");
+        return;
     }
 }
