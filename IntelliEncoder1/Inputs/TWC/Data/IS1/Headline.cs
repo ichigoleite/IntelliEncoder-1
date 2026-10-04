@@ -1,5 +1,6 @@
 using System.Data;
 using System.Net.Http.Json;
+using System.Text.Json;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Records.IS1;
 using IntelliEncoder1.Schema.IBM.v3;
@@ -79,6 +80,12 @@ public partial class InputsTWCDataIS1
 
             return data;
 
+        }
+        catch (JsonException e)
+        {
+            Logger.Error($"{location.obsStn} has no alerts.");
+            Logger.Debug(e.ToString());
+            return null;
         }
         catch (Exception e)
         {
