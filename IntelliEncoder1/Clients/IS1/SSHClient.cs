@@ -1,3 +1,4 @@
+using System.Text;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Schema.IntelliEncoder;
@@ -39,8 +40,15 @@ public class SSHClient
 
     public IS1StarConfig GrabStarConfig()
     {
+        // Download the config.
+        MemoryStream stream = new();
+        sftpClient.DownloadFile("/home/dgadmin/config/current/config.py", stream);
+
+        // Read the config.
+        string configText = Encoding.UTF8.GetString(stream.ToArray());
+
         // Retrieve STAR config
-        return new(sftpClient, Config);
+        return new(configText, Config);
     }
 
     public void SendPayload(IS1StarConfig starConfig)

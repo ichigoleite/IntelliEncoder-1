@@ -64,20 +64,13 @@ public partial class IS1StarConfig
     ]
     private static partial Regex I2MELID();
 
-    public IS1StarConfig(SftpClient sftpClient, Config config)
+    public IS1StarConfig(string configStr, Config config)
     {
         // Set config.
         Config = config;
 
-        // Download the config.
-        MemoryStream stream = new();
-        sftpClient.DownloadFile("/home/dgadmin/config/current/config.py", stream);
-
-        // Read the config.
-        string configText = Encoding.UTF8.GetString(stream.ToArray());
-
         // Parse the config.
-        string[][] checkLoc = ParseConfig(configText);
+        string[][] checkLoc = ParseConfig(configStr);
 
         Console.WriteLine($"Parsing config for IntelliStar 1 with headend ID {HeadendID}");
         Task.WaitAll(LFRecordCheck(checkLoc));
