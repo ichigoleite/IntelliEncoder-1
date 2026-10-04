@@ -10,8 +10,6 @@ public class IS1Daypart
     public int Icon = 3200;
     public int Temp = 0;
     public bool IsNight = false;
-    public long Time = 0;
-    public long Expiration = 0;
 }
 
 public class IS1DaypartForecast : IS1DataRecord
@@ -37,8 +35,9 @@ public class IS1DaypartForecast : IS1DataRecord
         int daypartIdx = 0;
         bool isNight;
 
-        foreach (IS1Daypart daypart in Dayparts)
+        for (int i = 0; i < Dayparts.Count; i++)
         {
+            IS1Daypart daypart = Dayparts[i];
             if (daypart.Phrase == null)
             {
                 continue;
@@ -54,8 +53,18 @@ public class IS1DaypartForecast : IS1DataRecord
 
             string varName = $"{daypartCount}_{(daypart.IsNight ? 2 : 1)}";
             string dataName = $"daypart_data_{varName}";
-            string validTime = $"time.mktime(time.localtime({daypart.Time}))";
-            string expiration = $"time.mktime(time.localtime({daypart.Expiration}))";
+            string validTime = $"int(keyTime + {daypartIdx * 12 * 3600})";
+            string expiration = $"int({validTime} + 43200)";
+            string audioCode = "";
+
+            if (i + 1 >= Dayparts.Count)
+            {
+                audioCode = GenerateAudioCode(daypart, Dayparts[i + 1], daypartCount);
+            }
+            else
+            {
+                audioCode = GenerateAudioCode(daypart, daypart, daypartCount);
+            }
 
             dataBody += $"""
             # Daypart {daypartCount} ({(isNight ? "Night" : "Day")})
@@ -64,7 +73,8 @@ public class IS1DaypartForecast : IS1DataRecord
             {dataName}.phrase = "{daypart.Phrase}"
             {dataName}.skyCondition = {daypart.Icon}
             {dataName}.temp = {daypart.Temp}
-            {dataName}.daypartName = {daypart.Name}
+            {dataName}.daypartName = "{daypart.Name}"
+            {dataName}.audioCode = "{audioCode}"
 
             wxdata.setDaypartData(
                 loc="{Location}",
@@ -98,8 +108,18 @@ public class IS1DaypartForecast : IS1DataRecord
         # Start message
         Log.info("IntelliEncoder 1 - Sending Daypart Forecast data for location {Location}...")
 
-        # Number of dayparts
-        numDayparts = {DaypartNum}
+        # Time
+        Y, M, D, h, m, s, wd, jd, dst = time.localtime(time.time())
+        dOffset = 0  # Always use offset of 0
+
+        keyTime = time.mktime((Y, M, D + dOffset, 5, 0, 0, 0, 0, -1))
+
+        times = [
+            keyTime,
+            keyTime + (12 * 3600),
+            keyTime + (24 * 3600),
+            keyTime + (36 * 3600)
+        ]
 
         # Dayparts
 
@@ -110,5 +130,18 @@ public class IS1DaypartForecast : IS1DataRecord
         """;
 
         return recordBody;
+    }
+
+    private string GenerateAudioCode(IS1Daypart daypart1, IS1Daypart daypart2, int daypartCount)
+    {
+        List<string> audioCodes = [];
+        // Longform
+        audioCodes.Add($"X{daypart1.Icon}{daypart2.Icon}{daypartCount}1");
+        // Short Cast
+        audioCodes.Add($"S{daypart1.Icon}");
+        // Temperature
+        audioCodes.Add($"TH{daypart1.Temp}");
+
+        return String.Join(":", audioCodes);
     }
 }
