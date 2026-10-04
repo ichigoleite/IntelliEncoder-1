@@ -52,6 +52,7 @@ public partial class InputsTWCDataIS1
         // Grab data.
         try
         {
+            Logger.Info($"Grabbing alert for {location.cityNm} ({location.coopId}) with zone {location.zoneId}.");
             AlertsHeadlinesResponse? alerts = await Client.GetFromJsonAsync<AlertsHeadlinesResponse>($"https://api.weather.com/v3/alerts/headlines?areaId={location.zoneId}:{location.siteId}&language={TWCConfig.Language}&format=json&apiKey={TWCConfig.APIKey}");
 
             if (alerts == null)
@@ -83,13 +84,13 @@ public partial class InputsTWCDataIS1
         }
         catch (JsonException e)
         {
-            Logger.Error($"{location.obsStn} has no alerts.");
+            Logger.Error($"{location.zoneId} has no alerts.");
             Logger.Debug(e.ToString());
             return null;
         }
         catch (Exception e)
         {
-            Logger.Error($"Could not grab Current Conditions data for observation station {location.obsStn}!");
+            Logger.Error($"Could not grab Headline data for zone {location.zoneId}!");
             Logger.Error(e.ToString());
             return null;
         }
