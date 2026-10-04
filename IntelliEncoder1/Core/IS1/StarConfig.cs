@@ -103,9 +103,10 @@ public partial class IS1StarConfig
         {
             Console.WriteLine($"Checking COOP {coop}...");
             var cmd = sqlite.CreateCommand();
-            cmd.CommandText = $"SELECT count(*) FROM LFRecord WHERE coopId = \'{coop}\' LIMIT 1";
+            cmd.CommandText = $"SELECT count(*) FROM LFRecord WHERE coopId = '{coop.Trim()}' LIMIT 1";
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
 
-            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+            if (count == 0)
             {
                 custom = true;
 
@@ -146,7 +147,7 @@ public partial class IS1StarConfig
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = \'{coop}\' LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE coopId = '{coop.Trim()}' LIMIT 1");
                 Locations.Add(location);
             }
         }
@@ -156,17 +157,10 @@ public partial class IS1StarConfig
         {
             Console.WriteLine($"Checking observation station {obsstn}...");
             var cmd = sqlite.CreateCommand();
-            cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE obsStn = \'{obsstn}\' LIMIT 1");
-            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
-            {
-                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE secObsStn = \'{obsstn}\' LIMIT 1");
-            }
-            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
-            {
-                cmd.CommandText = string.Format($"SELECT count(*) FROM LFRecord WHERE tertObsStn = \'{obsstn}\' LIMIT 1");
-            }
+            cmd.CommandText = $"SELECT count(*) FROM LFRecord WHERE obsStn = '{obsstn.Trim()}' LIMIT 1";
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
 
-            if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+            if (count == 0)
             {
                 custom = true;
 
@@ -197,17 +191,25 @@ public partial class IS1StarConfig
                         continue;
                     }
 
-                    // Add the location to LFRecord.
-                    LFRecordLocation location = await AddNewLocation(sqlite, type, country, code);
-                    ObsStns.Add(location);
+                    try
+                    {
+                        // Add the location to LFRecord.
+                        LFRecordLocation location = await AddNewLocation(sqlite, type, country, code);
+                        ObsStns.Add(location);
 
-                    // if not add it to addedLIDs
-                    addedLIDs[lid] = location;
+                        // if not add it to addedLIDs
+                        addedLIDs[lid] = location;
+                    }
+                    catch
+                    {
+                        Console.WriteLine($"Could not grab location ID for {lid}.");
+                    }
+
                 }
             }
             else
             {
-                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE obsStn = \'{obsstn}\' LIMIT 1");
+                LFRecordLocation location = sqlite.QuerySingle<LFRecordLocation>($"SELECT * FROM LFRecord WHERE obsStn = '{obsstn.Trim()}' LIMIT 1");
                 ObsStns.Add(location);
             }
         }
@@ -227,8 +229,11 @@ public partial class IS1StarConfig
 
     private async Task<LFRecordLocation> AddNewLocation(SQLiteConnection sqlite, int type, string country, string code)
     {
+        Console.WriteLine($"Grabbing location {type}_{country}_{code} from TWC...");
         InputsTWCLFRecord LFRecord = new(Config);
         LFRecordLocation lflr = await LFRecord.GrabLocation(type, country, code);
+
+        Console.WriteLine($"Writing location {lflr.cityNm} ({lflr.locType}_{lflr.siteId}_{lflr.locId}) to the LFRecord...");
 
         // Inserting to current LFRecord.
         SQLiteCommand insertSQL = sqlite.CreateCommand();
@@ -291,6 +296,8 @@ public partial class IS1StarConfig
         {
             throw new Exception(ex.Message);
         }
+
+        Console.WriteLine($"Wrote location {lflr.cityNm} ({lflr.locType}_{lflr.siteId}_{lflr.locId}) to the LFRecord!");
 
         // Return with LFRecordLocation.
         return lflr;
