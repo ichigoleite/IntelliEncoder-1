@@ -30,6 +30,12 @@ public class MainDataRetriever
             InputsTWCMain input = new(Config);
             dataRecords = [.. dataRecords.Concat(await input.RetrieveDataIS1(starConfig))];
         }
+        if (Inputs.AdCrawl.Enabled)
+        {
+            Logger.Info("Grabbing ad crawl.");
+            InputsAdCrawlMain input = new(Config);
+            dataRecords = [.. dataRecords.Concat(await input.RetrieveDataIS1(starConfig))];
+        }
 
 
         return [.. dataRecords];
