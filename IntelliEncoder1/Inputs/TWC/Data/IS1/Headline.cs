@@ -16,18 +16,14 @@ public partial class InputsTWCDataIS1
         // Rain/Flood
         {"FF_W", ["FFW", "001"]},
         {"FA_W", ["FFW", "001"]},
-        {"FF_W", ["FFW", "001"]},
-        {"FF_W", ["FFW", "001"]},
         {"flood_W", ["FFW", "001"]},
         {"flood_WR", ["FFW", "001"]},
         {"flood_WO", ["FFW", "001"]},
         {"flood_WY", ["FFW", "001"]},
         {"TFL_A", ["FFW", "001"]},
         {"TFL_W", ["FFW", "001"]},
-        {"TRF_A", ["FFW", "001"]},
         {"TRF_W", ["FFW", "001"]},
         {"TRF_S", ["FFW", "001"]},
-        {"TFL_A", ["FFW", "001"]},
         {"FL_W", ["FFW", "001"]},
         // Thunderstorm
         {"SV_W", ["SVR", "001"]},
