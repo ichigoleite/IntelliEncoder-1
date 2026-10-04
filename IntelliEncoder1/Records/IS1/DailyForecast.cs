@@ -1,9 +1,9 @@
 // This generates daily forecast data for the IntelliStar 1.
 
-using IntelliEncoder1.Core;
-namespace IntelliEncoder1.Records;
+using IntelliEncoder1.Core.IS1;
+namespace IntelliEncoder1.Records.IS1;
 
-public class Day
+public class IS1Day
 {
     public int? MaxTemp = 0;
     public int? MinTemp = 0;
@@ -11,7 +11,7 @@ public class Day
     public int? NightIcon = 3200;
 }
 
-public class DailyForecast : DataRecord
+public class IS1DailyForecast : IS1DataRecord
 {
 
     // Location
@@ -21,7 +21,7 @@ public class DailyForecast : DataRecord
     public DateTime Time = DateTime.Now;
 
     // Days
-    public List<Day> Days = [];
+    public List<IS1Day> Days = [];
 
     protected override async Task<string> GenerateInternal()
     {
@@ -33,7 +33,7 @@ public class DailyForecast : DataRecord
 
         int dayIdx = 0;
 
-        foreach (Day day in Days)
+        foreach (IS1Day day in Days)
         {
 
             int dayNumber = dayIdx + 1;

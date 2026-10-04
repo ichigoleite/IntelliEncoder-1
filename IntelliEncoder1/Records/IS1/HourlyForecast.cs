@@ -1,9 +1,9 @@
 // This generates hourly forecast data for the IntelliStar 1.
 
-using IntelliEncoder1.Core;
-namespace IntelliEncoder1.Records;
+using IntelliEncoder1.Core.IS1;
+namespace IntelliEncoder1.Records.IS1;
 
-public class Hour
+public class IS1Hour
 {
     public DateTime Time = DateTime.UtcNow.Date.AddHours(DateTime.UtcNow.Hour);
     public int MaxTemp = 0;
@@ -15,7 +15,7 @@ public class Hour
     public int PrecipitationChance = 0;
 }
 
-public class HourlyForecast : DataRecord
+public class IS1HourlyForecast : IS1DataRecord
 {
 
     // Location
@@ -25,7 +25,7 @@ public class HourlyForecast : DataRecord
     public DateTime Time = DateTime.Now;
 
     // Hours
-    public List<Hour> Hours = [];
+    public List<IS1Hour> Hours = [];
 
     protected override async Task<string> GenerateInternal()
     {
@@ -37,7 +37,7 @@ public class HourlyForecast : DataRecord
 
         int hourIdx = 0;
 
-        foreach (Hour hour in Hours)
+        foreach (IS1Hour hour in Hours)
         {
 
             int hourNumber = hourIdx + 1;

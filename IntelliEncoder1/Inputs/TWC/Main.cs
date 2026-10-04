@@ -1,7 +1,7 @@
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Inputs.TWC.Data.IS1;
-using IntelliEncoder1.Records;
+using IntelliEncoder1.Records.IS1;
 using IntelliEncoder1.Schema.IntelliEncoder;
 using Renci.SshNet;
 namespace IntelliEncoder1.Inputs;
@@ -33,12 +33,12 @@ public class InputsTWCMain
         IS1StarConfig starConfig = new(sftpClient, Config);
 
         InputsTWCDataIS1 dataClient = new(Config, Logger);
-        List<DataRecord> dataRecords = [];
+        List<IS1DataRecord> dataRecords = [];
 
         // Grab all observations
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
-            CurrentConditions? cc = await dataClient.CurrentConditions(location);
+            IS1CurrentConditions? cc = await dataClient.CurrentConditions(location);
             if (cc != null)
             {
                 dataRecords.Add(cc);

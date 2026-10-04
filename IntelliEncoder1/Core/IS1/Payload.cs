@@ -5,7 +5,7 @@ namespace IntelliEncoder1.Core.IS1;
 public class IS1Payload()
 {
     // List of DataRecords.
-    public List<DataRecord> DataRecords = [];
+    public List<IS1DataRecord> DataRecords = [];
 
     // Generates payload scripts.
     public async Task<string> Generate()
@@ -44,7 +44,7 @@ public class IS1Payload()
         """";
 
         // Generate all DataRecords.
-        foreach (DataRecord record in DataRecords)
+        foreach (IS1DataRecord record in DataRecords)
         {
             payloadBody += await record.Generate();
         }

@@ -1,9 +1,9 @@
 // This generates headline data for the IntelliStar 1.
 
-using IntelliEncoder1.Core;
-namespace IntelliEncoder1.Records;
+using IntelliEncoder1.Core.IS1;
+namespace IntelliEncoder1.Records.IS1;
 
-public class Alert
+public class IS1Alert
 {
     public string Text = "Nano Shinonome has triggered a massive explosion in Tokisadame.";
     public string Phenomena = "TCD";
@@ -11,14 +11,14 @@ public class Alert
     public DateTime Expiration = DateTime.UtcNow.AddHours(4);
 }
 
-public class Headline : DataRecord
+public class IS1Headline : IS1DataRecord
 {
 
     // Area
     public string Area = "";
 
     // Alerts
-    public List<Alert> Alerts = [];
+    public List<IS1Alert> Alerts = [];
 
     protected override async Task<string> GenerateInternal()
     {
@@ -30,7 +30,7 @@ public class Headline : DataRecord
 
         int alertIdx = 0;
 
-        foreach (Alert alert in Alerts)
+        foreach (IS1Alert alert in Alerts)
         {
             string dataName = $"alert_{Area}_{alertIdx}";
 

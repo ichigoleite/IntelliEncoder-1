@@ -1,9 +1,9 @@
 // This generates current observation data for the IntelliStar 1.
 
-using IntelliEncoder1.Core;
-namespace IntelliEncoder1.Records;
+using IntelliEncoder1.Core.IS1;
+namespace IntelliEncoder1.Records.IS1;
 
-public class CurrentConditions : DataRecord
+public class IS1CurrentConditions : IS1DataRecord
 {
     // Location
     public string Location = "";

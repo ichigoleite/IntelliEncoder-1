@@ -1,9 +1,9 @@
 // This generates daypart forecast data for the IntelliStar 1.
 
-using IntelliEncoder1.Core;
-namespace IntelliEncoder1.Records;
+using IntelliEncoder1.Core.IS1;
+namespace IntelliEncoder1.Records.IS1;
 
-public class Daypart
+public class IS1Daypart
 {
     public string Name = "None";
     public string? Phrase;
@@ -12,7 +12,7 @@ public class Daypart
     public bool IsNight = false;
 }
 
-public class DaypartForecast : DataRecord
+public class IS1DaypartForecast : IS1DataRecord
 {
     // Number of dayparts.
     public const int DaypartNum = 4;
@@ -21,7 +21,7 @@ public class DaypartForecast : DataRecord
     public string Location = "";
 
     // Dayparts
-    public List<Daypart> Dayparts = [];
+    public List<IS1Daypart> Dayparts = [];
 
     protected override async Task<string> GenerateInternal()
     {
@@ -35,7 +35,7 @@ public class DaypartForecast : DataRecord
         int daypartIdx = 0;
         bool isNight;
 
-        foreach (Daypart daypart in Dayparts)
+        foreach (IS1Daypart daypart in Dayparts)
         {
             if (daypart.Phrase == null)
             {

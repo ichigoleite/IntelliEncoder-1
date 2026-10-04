@@ -1,7 +1,7 @@
 using System.Data;
 using System.Net.Http.Json;
 using IntelliEncoder1.Core;
-using IntelliEncoder1.Records;
+using IntelliEncoder1.Records.IS1;
 using IntelliEncoder1.Schema.IBM;
 using IntelliEncoder1.Schema.IntelliEncoder;
 
@@ -32,9 +32,9 @@ public partial class InputsTWCDataIS1
         {"VAR", 17}
     };
 
-    public async Task<CurrentConditions?> CurrentConditions(LFRecordLocation location)
+    public async Task<IS1CurrentConditions?> CurrentConditions(LFRecordLocation location)
     {
-        CurrentConditions data = new();
+        IS1CurrentConditions data = new();
 
         // Grab data.
         try
