@@ -40,11 +40,12 @@ public class IS1AdCrawl : IS1DataRecord
         Log.info("IntelliEncoder 1 - Sending Ad Crawl data...")
 
         crawl_data = twc.Data()
+        crawl_data.serialNum = 178201
         crawl_data.crawls = [
             {dataBody}
         ]
-        dsm.set('Config.1.Ldl_LASCrawl', d, 0)
-        dsm.set('Config.0.LASCrawl', d, 0)
+        dsm.set('Config.1.Ldl_LASCrawl', crawl_data, 0)
+        dsm.set('Config.0.LASCrawl', crawl_data, 0)
         ds.commit()
 
         # Finish!
