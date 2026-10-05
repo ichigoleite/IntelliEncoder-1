@@ -1,4 +1,3 @@
-using System.Buffers;
 using IntelliEncoder1.Clients.IS1;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
@@ -24,51 +23,54 @@ namespace IntelliEncoder1
 
         public async Task MainDataLoop()
         {
-
-            foreach (ConfigClassSTAR star in Config.config.Stars)
+            while (true)
             {
-                if (star.Star == ConfigClassSTARTypes.IntelliStar1)
+                foreach (ConfigClassSTAR star in Config.config.Stars)
                 {
-                    IS1StarConfig starConfig;
-                    SSHClient sshClient;
-
-                    if (star.Method == ConfigClassSTARMethods.SSH)
+                    if (star.Star == ConfigClassSTARTypes.IntelliStar1)
                     {
-                        sshClient = new(star, Config);
+                        IS1StarConfig starConfig;
+                        SSHClient sshClient;
 
-                        sshClient.Prepare();
-                        starConfig = sshClient.GrabStarConfig();
-                    }
-                    else
-                    {
-                        Logger.Warn("IntelliStar 1 config has an unknown method.");
-                        continue;
-                    }
+                        if (star.Method == ConfigClassSTARMethods.SSH)
+                        {
+                            sshClient = new(star, Config);
 
-
-                    Directory.CreateDirectory($".temp/IS1/{starConfig.HeadendID}");
-
-                    MainDataRetriever retriever = new(Config);
-                    IS1DataRecord[] dataRecords = await retriever.RetrieveDataIS1(starConfig);
-
-                    Logger.Info($"Generating data payload for IntelliStar 1 {starConfig.HeadendID}...");
-                    // Generate payload
-                    IS1Payload payload = new() { DataRecords = [.. dataRecords] };
-
-                    string? payloadContent = await payload.Generate();
-                    if (payloadContent == null)
-                    {
-                        Logger.Error($"Could not generate IS1 payload for headend ID {starConfig.HeadendID}");
-                        return;
-                    }
-                    File.WriteAllText($".temp/IS1/{starConfig.HeadendID}/payload.py", payloadContent);
+                            sshClient.Prepare();
+                            starConfig = sshClient.GrabStarConfig();
+                        }
+                        else
+                        {
+                            Logger.Warn("IntelliStar 1 config has an unknown method.");
+                            continue;
+                        }
 
 
-                    if (star.Method == ConfigClassSTARMethods.SSH)
-                    {
-                        sshClient.SendPayload(starConfig);
+                        Directory.CreateDirectory($".temp/IS1/{starConfig.HeadendID}");
+
+                        MainDataRetriever retriever = new(Config);
+                        IS1DataRecord[] dataRecords = await retriever.RetrieveDataIS1(starConfig);
+
+                        Logger.Info($"Generating data payload for IntelliStar 1 {starConfig.HeadendID}...");
+                        // Generate payload
+                        IS1Payload payload = new() { DataRecords = [.. dataRecords] };
+
+                        string? payloadContent = await payload.Generate();
+                        if (payloadContent == null)
+                        {
+                            Logger.Error($"Could not generate IS1 payload for headend ID {starConfig.HeadendID}");
+                            return;
+                        }
+                        File.WriteAllText($".temp/IS1/{starConfig.HeadendID}/payload.py", payloadContent);
+
+
+                        if (star.Method == ConfigClassSTARMethods.SSH)
+                        {
+                            sshClient.SendPayload(starConfig);
+                        }
                     }
                 }
+                await Task.Delay(Config.config.Timers.DataTimer);
             }
         }
     }
