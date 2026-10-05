@@ -36,6 +36,9 @@ if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "Custom")))
   File.Copy(
     Path.Combine(AppContext.BaseDirectory, "Data", "LFRecord.db"),
     Path.Combine(AppContext.BaseDirectory, "Custom", "LFRecord.db"));
+  File.Copy(
+    Path.Combine(AppContext.BaseDirectory, "Data", "Airports.db"),
+    Path.Combine(AppContext.BaseDirectory, "Custom", "Airports.db"));
 }
 
 // Create TimedTasks class.

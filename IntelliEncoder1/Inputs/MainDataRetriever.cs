@@ -36,6 +36,12 @@ public class MainDataRetriever
             InputsAdCrawlMain input = new(Config);
             dataRecords = [.. dataRecords.Concat(await input.RetrieveDataIS1(starConfig))];
         }
+        if (Inputs.FlightAware.Enabled)
+        {
+            Logger.Info("Grabbing airport delays...");
+            InputsFlightAwareMain input = new(Config);
+            dataRecords = [.. dataRecords.Concat(await input.RetrieveDataIS1(starConfig))];
+        }
 
 
         return [.. dataRecords];

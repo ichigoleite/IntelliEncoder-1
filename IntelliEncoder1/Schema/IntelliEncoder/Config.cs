@@ -31,10 +31,16 @@ public class ConfigClassInputsAdCrawl
     public string URL { get; set; } = "https://example.com";
 }
 
+public class ConfigClassInputsFlightAware
+{
+    public bool Enabled { get; set; } = true;
+}
+
 public class ConfigClassInputs
 {
     public ConfigClassInputsTWC TWC { get; set; } = new();
     public ConfigClassInputsAdCrawl AdCrawl { get; set; } = new();
+    public ConfigClassInputsFlightAware FlightAware { get; set; } = new();
 }
 
 public class ConfigClassLog
