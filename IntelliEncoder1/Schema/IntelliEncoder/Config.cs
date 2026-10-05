@@ -65,11 +65,25 @@ public enum ConfigClassSTARMethods
     SSH,
 }
 
+public class ConfigClassSTARSchedule
+{
+    public int? EverySecond { get; set; } = null;
+    public int? EveryMinute { get; set; } = null;
+    public int? EveryHour { get; set; } = null;
+    public int? EveryOnSecond { get; set; } = null;
+    public int? EveryOnMinute { get; set; } = null;
+    public int? EveryOnHour { get; set; } = null;
+    public string Type { get; set; } = "local";
+    public string Product { get; set; } = "E";
+}
+
 public class ConfigClassSTAR
 {
     public ConfigClassSTARTypes Star { get; set; } = ConfigClassSTARTypes.IntelliStar1;
     public ConfigClassSTARMethods Method { get; set; } = ConfigClassSTARMethods.SSH;
     public ConfigClassSTARConnection Connection { get; set; } = new();
+    public ConfigClassSTARSchedule[] Schedule { get; set; } = [];
+    public string LDL { get; set; } = "A";
 
 }
 
