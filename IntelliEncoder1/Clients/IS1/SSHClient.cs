@@ -2,6 +2,7 @@ using System.Text;
 using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Schema.IntelliEncoder;
+using Org.BouncyCastle.Bcpg.Sig;
 using Renci.SshNet;
 
 namespace IntelliEncoder1.Clients.IS1;
@@ -70,5 +71,12 @@ public class SSHClient
         sshClient.RunCommand("su -l dgadmin -c '/usr/twc/digi/util/runomni /twc/util/loadSCMTconfig.pyc /home/dgadmin/.intelliencoder/payload.py'");
 
         Logger.Info($"Sucessfully sent data to the IS1 (Headend ID: {starConfig.HeadendID})");
+    }
+
+    public async Task RunPresentation(string type, string product)
+    {
+        sshClient.RunCommand($"su -l dgadmin -c 'load {type} {product}'");
+        await Task.Delay(1500);
+        sshClient.RunCommand($"su -l dgadmin -c 'run {type}'");
     }
 }

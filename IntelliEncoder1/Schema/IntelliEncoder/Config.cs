@@ -67,9 +67,6 @@ public enum ConfigClassSTARMethods
 
 public class ConfigClassSTARSchedule
 {
-    public int? EverySecond { get; set; } = null;
-    public int? EveryMinute { get; set; } = null;
-    public int? EveryHour { get; set; } = null;
     public int? EveryOnSecond { get; set; } = null;
     public int? EveryOnMinute { get; set; } = null;
     public int? EveryOnHour { get; set; } = null;

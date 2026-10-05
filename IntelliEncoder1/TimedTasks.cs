@@ -74,6 +74,58 @@ namespace IntelliEncoder1
                 await Task.Delay(Config.config.Timers.DataTimer);
             }
         }
+
+
+        public async Task ScheduleDataLoop()
+        {
+
+            while (true)
+            {
+                foreach (ConfigClassSTAR star in Config.config.Stars)
+                {
+                    if (star.Star == ConfigClassSTARTypes.IntelliStar1)
+                    {
+                        SSHClient sshClient;
+
+                        if (star.Method == ConfigClassSTARMethods.SSH)
+                        {
+                            sshClient = new(star, Config);
+
+                            sshClient.Prepare();
+                            foreach (ConfigClassSTARSchedule schedule in star.Schedule)
+                            {
+                                bool run = false;
+                                DateTime dateTime = DateTime.Now;
+                                if (dateTime.Minute == schedule.EveryOnMinute)
+                                {
+                                    run = true;
+                                }
+                                else if (dateTime.Second == schedule.EveryOnSecond)
+                                {
+                                    run = true;
+                                }
+                                else if (dateTime.Hour == schedule.EveryOnHour)
+                                {
+                                    run = true;
+                                }
+
+                                if (run)
+                                {
+                                    await sshClient.RunPresentation(schedule.Type, schedule.Product);
+                                    Logger.Info($"Running {schedule.Type} {schedule.Product} on IntelliStar 1");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Logger.Warn("IntelliStar 1 config has an unknown method.");
+                            continue;
+                        }
+                    }
+                }
+                await Task.Delay(1000);
+            }
+        }
     }
 }
 

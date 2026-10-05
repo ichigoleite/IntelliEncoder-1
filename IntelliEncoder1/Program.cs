@@ -46,7 +46,8 @@ TimedTasks timedTasks = new TimedTasks(config);
 
 // Start loops.
 Task.WaitAll(
-    timedTasks.MainDataLoop()
+    timedTasks.MainDataLoop(),
+    timedTasks.ScheduleDataLoop()
 );
 
 Console.WriteLine("Goodbye.");
