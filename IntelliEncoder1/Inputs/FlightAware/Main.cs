@@ -77,40 +77,53 @@ public class InputsFlightAwareMain
                     {
                         if (starConfig.Airports.Contains(iata))
                         {
-                            string type = "";
-                            int trend = 0;
+                            bool departure = false;
+                            bool arrival = false;
+                            int deptrend = 0;
+                            int arrtrend = 0;
                             foreach (string reason in delay.reasons)
                             {
                                 if (reason.Contains("departure"))
                                 {
-                                    type = "departure";
+                                    departure = true;
+                                    if (reason.Contains("decreasing"))
+                                    {
+                                        deptrend = 2;
+                                    }
+                                    else if (reason.Contains("increasing"))
+                                    {
+                                        deptrend = 1;
+                                    }
                                 }
-                                else if (reason.Contains("arrival"))
+                                else if (reason.Contains("arrival") || reason.Contains("inbound"))
                                 {
-                                    type = "arrival";
-                                }
-                                else if (reason.Contains("inbound"))
-                                {
-                                    type = "arrival";
-                                }
-
-                                if (reason.Contains("decreasing"))
-                                {
-                                    trend = 2;
-                                }
-                                else if (reason.Contains("increasing"))
-                                {
-                                    trend = 1;
+                                    arrival = true;
+                                    if (reason.Contains("decreasing"))
+                                    {
+                                        arrtrend = 2;
+                                    }
+                                    else if (reason.Contains("increasing"))
+                                    {
+                                        arrtrend = 1;
+                                    }
                                 }
                             }
 
                             delays.Add(new()
                             {
                                 Airport = iata,
-                                Type = type,
-                                Trend = trend,
-                                Duration = delay.delay_secs,
-                                Reason = delay.category,
+                                Arrival = new()
+                                {
+                                    Duration = arrival ? delay.delay_secs : 0,
+                                    Trend = arrtrend,
+                                    Reason = arrival ? delay.category : "",
+                                },
+                                Departure = new()
+                                {
+                                    Duration = departure ? delay.delay_secs : 0,
+                                    Trend = deptrend,
+                                    Reason = departure ? delay.category : "",
+                                },
                             });
 
                             addedAP.Add(iata);

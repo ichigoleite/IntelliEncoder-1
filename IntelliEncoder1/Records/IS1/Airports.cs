@@ -4,13 +4,18 @@ using IntelliEncoder1.Core.IS1;
 using System.Globalization;
 namespace IntelliEncoder1.Records.IS1;
 
-public class IS1Delay
+public class IS1DelayInfo
 {
-    public string Airport = "";
-    public string Type = "none";
     public int Duration = 0;
     public int Trend = 0;
     public string Reason = "";
+}
+
+public class IS1Delay
+{
+    public string Airport = "";
+    public IS1DelayInfo Arrival = new();
+    public IS1DelayInfo Departure = new();
 }
 
 public class IS1AirportDelays : IS1DataRecord
@@ -36,9 +41,13 @@ public class IS1AirportDelays : IS1DataRecord
             dataBody += $"""
             # Airport {delay.Airport.Replace(" ", "")}
             
-            {dataName}.{delay.Type.Replace(" ", "")}Delay = {(int)(delay.Duration / 60)}
-            {dataName}.{delay.Type.Replace(" ", "")}DelayReason = "{new CultureInfo("en-US", false).TextInfo.ToTitleCase(delay.Reason).Replace(" ", "")}"
-            {dataName}.{delay.Type.Replace(" ", "")}DelayTrend = {delay.Trend}
+            {dataName}.arrivalDelay = {(int)(delay.Arrival.Duration / 60)}
+            {dataName}.arrivalDelayReason = "{new CultureInfo("en-US", false).TextInfo.ToTitleCase(delay.Arrival.Reason).Replace(" ", "")}"
+            {dataName}.arrivalDelayTrend = {delay.Arrival.Trend}
+
+            {dataName}.departureDelay = {(int)(delay.Departure.Duration / 60)}
+            {dataName}.departureDelayReason = "{new CultureInfo("en-US", false).TextInfo.ToTitleCase(delay.Departure.Reason).Replace(" ", "")}"
+            {dataName}.departureDelayTrend = {delay.Departure.Trend}
 
             wxdata.setData("{delay.Airport.Replace(" ", "")}", 'airportDelays', {dataName}, {((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds() + 3600})
 
