@@ -50,13 +50,13 @@ jobs:
         working-directory: ./IntelliEncoder1
 
       - name: Build Linux Executable
-        run: dotnet build -c Release --no-restore --os linux
+        run: dotnet publish --os linux
         working-directory: ./IntelliEncoder1
 
       - uses: "actions/upload-artifact@v4"
         with:
           name: IntelliEncoder1-artifact-linux-x64
-          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/linux-x64/publish**
           if-no-files-found: error
   build-osx-x64:
     runs-on: windows-latest
@@ -75,14 +75,14 @@ jobs:
         run: dotnet restore
         working-directory: ./IntelliEncoder1
 
-      - name: Build Windows Executable
-        run: dotnet build -c Release --no-restore --os osx
+      - name: Build macOS Executable
+        run: dotnet publish --os osx
         working-directory: ./IntelliEncoder1
 
       - uses: "actions/upload-artifact@v4"
         with:
           name: IntelliEncoder1-artifact-macOS-x64
-          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/osx-x64/publish**
           if-no-files-found: error
   build-osx-arm64:
     runs-on: windows-latest
@@ -101,12 +101,12 @@ jobs:
         run: dotnet restore
         working-directory: ./IntelliEncoder1
 
-      - name: Build Windows Executable
-        run: dotnet build -c Release --no-restore --os osx --arch arm64
+      - name: Build macOS Executable
+        run: dotnet publish --os osx --arch arm64
         working-directory: ./IntelliEncoder1
 
       - uses: "actions/upload-artifact@v4"
         with:
           name: IntelliEncoder1-artifact-macOS-arm64
-          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/osx-arm64/publish**
           if-no-files-found: error
