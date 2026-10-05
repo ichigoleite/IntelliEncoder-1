@@ -50,7 +50,7 @@ jobs:
         working-directory: ./IntelliEncoder1
 
       - name: Build Linux Executable
-        run: dotnet build -c Release --no-restore --win linux
+        run: dotnet build -c Release --no-restore --os linux
         working-directory: ./IntelliEncoder1
 
       - uses: "actions/upload-artifact@v4"
