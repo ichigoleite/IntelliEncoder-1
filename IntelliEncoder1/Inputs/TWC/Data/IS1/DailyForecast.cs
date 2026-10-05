@@ -36,21 +36,27 @@ public partial class InputsTWCDataIS1
             {
                 for (var i = 0; i < daily.validTimeUtc.Length; i++)
                 {
-                    data.Dayparts.Add(new()
+                    if (DRConfig.DaypartForecast)
                     {
-                        Name = daily.daypart[0].daypartName![i]!,
-                        Phrase = daily.daypart[0].narrative?[i],
-                        Icon = (int)daily.daypart[0].iconCodeExtend![i]!,
-                        Temp = (int)daily.daypart[0].temperature![i]!,
-                        IsNight = daily.daypart[0].dayOrNight![i]! == "D" ? false : true
-                    });
-                    data_daily.Days.Add(new()
+                        data.Dayparts.Add(new()
+                        {
+                            Name = daily.daypart[0].daypartName![i]!,
+                            Phrase = daily.daypart[0].narrative?[i],
+                            Icon = (int)daily.daypart[0].iconCodeExtend![i]!,
+                            Temp = (int)daily.daypart[0].temperature![i]!,
+                            IsNight = daily.daypart[0].dayOrNight![i]! == "D" ? false : true
+                        });
+                    }
+                    if (DRConfig.DailyForecast)
                     {
-                        MaxTemp = daily.temperatureMax?[i],
-                        MinTemp = daily.temperatureMin?[i],
-                        DayIcon = daily.daypart[0].iconCodeExtend?[i],
-                        NightIcon = daily.daypart[0].iconCodeExtend?[i + 1],
-                    });
+                        data_daily.Days.Add(new()
+                        {
+                            MaxTemp = daily.temperatureMax?[i],
+                            MinTemp = daily.temperatureMin?[i],
+                            DayIcon = daily.daypart[0].iconCodeExtend?[i],
+                            NightIcon = daily.daypart[0].iconCodeExtend?[i + 1],
+                        });
+                    }
                 }
             }
             else

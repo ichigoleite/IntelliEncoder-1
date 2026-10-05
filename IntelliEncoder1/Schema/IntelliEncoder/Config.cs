@@ -15,6 +15,8 @@ public class ConfigClassDataRecords
     public bool DaypartForecast { get; set; } = true;
     public bool Headline { get; set; } = true;
     public bool HourlyForecast { get; set; } = true;
+    public bool AdCrawl { get; set; } = true;
+    public bool AirportDelays { get; set; } = true;
 }
 
 public class ConfigClassInputsTWC

@@ -9,6 +9,7 @@ public partial class InputsTWCDataIS1
     Logger Logger;
     HttpClient Client;
     ConfigClassInputsTWC TWCConfig;
+    ConfigClassDataRecords DRConfig;
 
     // Turns TWC wind cardinal to equivlant int.
     private readonly static Dictionary<string, int> CardinalToWindIntMap = new(){
@@ -38,5 +39,6 @@ public partial class InputsTWCDataIS1
         Logger = logger;
         Client = config.client;
         TWCConfig = config.config.Inputs.TWC;
+        DRConfig = config.config.DataRecords;
     }
 }

@@ -11,6 +11,7 @@ public class InputsFlightAwareMain
 {
     Logger Logger;
     Config Config;
+    ConfigClassDataRecords DRConfig;
 
     public InputsFlightAwareMain(Config config)
     {
@@ -19,11 +20,16 @@ public class InputsFlightAwareMain
 
         // Make logger.
         Logger = new("Inputs - Data Retriever (Main) - FlightAware", config);
+
+        DRConfig = config.config.DataRecords;
     }
 
     public async Task<IS1DataRecord[]> RetrieveDataIS1(IS1StarConfig starConfig)
     {
-
+        if (!DRConfig.AdCrawl)
+        {
+            return [];
+        }
 
         Logger.Info($"Starting flight delay retrieval for IntelliStar 1 {starConfig.HeadendID}...");
         List<IS1DataRecord> dataRecords = [];

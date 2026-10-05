@@ -3,12 +3,14 @@ using IntelliEncoder1.Core;
 using IntelliEncoder1.Core.IS1;
 using IntelliEncoder1.Records.IS1;
 using IntelliEncoder1.Schema.ichigoleite;
+using IntelliEncoder1.Schema.IntelliEncoder;
 namespace IntelliEncoder1.Inputs;
 
 public class InputsAdCrawlMain
 {
     Logger Logger;
     Config Config;
+    ConfigClassDataRecords DRConfig;
 
     public InputsAdCrawlMain(Config config)
     {
@@ -17,11 +19,17 @@ public class InputsAdCrawlMain
 
         // Make logger.
         Logger = new("Inputs - Data Retriever (Main) - Ad Crawl", config);
+
+        DRConfig = config.config.DataRecords;
     }
 
     public async Task<IS1DataRecord[]> RetrieveDataIS1(IS1StarConfig starConfig)
     {
 
+        if (!DRConfig.AdCrawl)
+        {
+            return [];
+        }
 
         Logger.Info($"Starting ad crawl retrieval for IntelliStar 1 {starConfig.HeadendID}...");
         List<IS1DataRecord> dataRecords = [];

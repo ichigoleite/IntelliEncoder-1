@@ -28,26 +28,36 @@ public class InputsTWCMain
         InputsTWCDataIS1 dataClient = new(Config, Logger);
         List<IS1DataRecord> dataRecords = [];
 
+        ConfigClassDataRecords drConfig = Config.config.DataRecords;
+
         // Grab all observations
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
-            Logger.Info($"Grabbing Current Conditions for IntelliStar 1 {starConfig.HeadendID}...");
-            IS1CurrentConditions? data = await dataClient.CurrentConditions(location);
-            if (data != null)
+            if (drConfig.CurrentConditions)
             {
-                dataRecords.Add(data);
+                Logger.Info($"Grabbing Current Conditions for IntelliStar 1 {starConfig.HeadendID}...");
+                IS1CurrentConditions? data = await dataClient.CurrentConditions(location);
+                if (data != null)
+                {
+                    dataRecords.Add(data);
+                }
             }
+
         }
 
         // Grab all forecast data
         foreach (LFRecordLocation location in starConfig.ObsStns)
         {
-            Logger.Info($"Grabbing Hourly Forecast for IntelliStar 1 {starConfig.HeadendID}...");
-            IS1HourlyForecast? hourly = await dataClient.HourlyForecast(location);
-            if (hourly != null)
+            if (drConfig.HourlyForecast)
             {
-                dataRecords.Add(hourly);
+                Logger.Info($"Grabbing Hourly Forecast for IntelliStar 1 {starConfig.HeadendID}...");
+                IS1HourlyForecast? hourly = await dataClient.HourlyForecast(location);
+                if (hourly != null)
+                {
+                    dataRecords.Add(hourly);
+                }
             }
+
 
             Logger.Info($"Grabbing Daily Forecast for IntelliStar 1 {starConfig.HeadendID}...");
             IS1DataRecord[]? daily = await dataClient.DailyForecast(location);
@@ -56,11 +66,14 @@ public class InputsTWCMain
                 dataRecords = [.. dataRecords.Concat(daily)];
             }
 
-            Logger.Info($"Grabbing Headlines for IntelliStar 1 {starConfig.HeadendID}...");
-            IS1Headline? headlines = await dataClient.Headline(location);
-            if (headlines != null)
+            if (drConfig.Headline)
             {
-                dataRecords.Add(headlines);
+                Logger.Info($"Grabbing Headlines for IntelliStar 1 {starConfig.HeadendID}...");
+                IS1Headline? headlines = await dataClient.Headline(location);
+                if (headlines != null)
+                {
+                    dataRecords.Add(headlines);
+                }
             }
         }
 
