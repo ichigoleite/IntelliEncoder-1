@@ -1,0 +1,112 @@
+name: Bleeding edge release builds
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: ./IntelliEncoder1
+
+      - name: Build Windows Executable
+        run: dotnet build -c Release --no-restore
+        working-directory: ./IntelliEncoder1
+
+      - uses: "actions/upload-artifact@v4"
+        with:
+          name: IntelliEncoder1-artifact-windows-x64
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          if-no-files-found: error
+  build-linux:
+    runs-on: windows-latest
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: ./IntelliEncoder1
+
+      - name: Build Linux Executable
+        run: dotnet build -c Release --no-restore --win linux
+        working-directory: ./IntelliEncoder1
+
+      - uses: "actions/upload-artifact@v4"
+        with:
+          name: IntelliEncoder1-artifact-linux-x64
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          if-no-files-found: error
+  build-osx-x64:
+    runs-on: windows-latest
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: ./IntelliEncoder1
+
+      - name: Build Windows Executable
+        run: dotnet build -c Release --no-restore --os osx
+        working-directory: ./IntelliEncoder1
+
+      - uses: "actions/upload-artifact@v4"
+        with:
+          name: IntelliEncoder1-artifact-macOS-x64
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          if-no-files-found: error
+  build-osx-arm64:
+    runs-on: windows-latest
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: ./IntelliEncoder1
+
+      - name: Build Windows Executable
+        run: dotnet build -c Release --no-restore --os osx --arch arm64
+        working-directory: ./IntelliEncoder1
+
+      - uses: "actions/upload-artifact@v4"
+        with:
+          name: IntelliEncoder1-artifact-macOS-arm64
+          path: ${{github.workspace}}/IntelliEncoder1/bin/Release/net10.0/**
+          if-no-files-found: error
