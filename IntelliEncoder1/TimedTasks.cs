@@ -96,17 +96,26 @@ namespace IntelliEncoder1
                             {
                                 bool run = false;
                                 DateTime dateTime = DateTime.Now;
-                                if (dateTime.Minute == schedule.EveryOnMinute)
+                                if (schedule.EveryOnMinute != null)
                                 {
-                                    run = true;
+                                    if (dateTime.Minute == schedule.EveryOnMinute)
+                                    {
+                                        run = true;
+                                    }
                                 }
-                                else if (dateTime.Second == schedule.EveryOnSecond)
+                                if (schedule.EveryOnSecond != null)
                                 {
-                                    run = true;
+                                    if (dateTime.Second == schedule.EveryOnSecond)
+                                    {
+                                        run = true;
+                                    }
                                 }
-                                else if (dateTime.Hour == schedule.EveryOnHour)
+                                if (schedule.EveryOnHour != null)
                                 {
-                                    run = true;
+                                    if (dateTime.Hour == schedule.EveryOnHour)
+                                    {
+                                        run = true;
+                                    }
                                 }
 
                                 if (run)
