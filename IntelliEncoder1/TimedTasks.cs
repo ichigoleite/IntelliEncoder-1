@@ -70,6 +70,7 @@ namespace IntelliEncoder1
                         }
                     }
                 }
+                Logger.Info($"Waiting {Config.config.Timers.DataTimer} milliseconds before next loop...");
                 await Task.Delay(Config.config.Timers.DataTimer);
             }
         }
