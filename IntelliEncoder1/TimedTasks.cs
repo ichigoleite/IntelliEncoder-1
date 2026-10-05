@@ -15,7 +15,7 @@ namespace IntelliEncoder1
         public TimedTasks(Config configobj)
         {
             Config = configobj;
-            Logger = new("Inputs - Data Retriever (Main) - Ad Crawl", configobj);
+            Logger = new("TimedTasks", configobj);
 
             // Make sure directories exist.
             Directory.CreateDirectory(".temp/");
